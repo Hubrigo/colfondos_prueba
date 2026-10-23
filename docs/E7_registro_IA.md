@@ -118,3 +118,19 @@ Los commits con código asistido llevan el trailer `AI-Assisted:` para vincularl
 | Tiempo estimado sin IA | 45 min |
 | Tiempo real con IA | 15 min |
 | Observaciones de calidad | Se verificó que los rangos de líneas citados correspondan al archivo y que cada decisión ①–⑩ tenga una prueba en E5. |
+
+## IA-07: Debug de Safari 17 (E6)
+
+| Campo | Registro |
+|-------|----------|
+| Iniciativa / HU | HU-CONTACT-001 / defecto reportado por QA (sección 10) |
+| Herramienta | Claude Code + Playwright (WebKit) + Vitest + ESLint |
+| Prompt relevante | "Reproduce a propósito el defecto de QA (Safari 17, HTTP 200, *Promise rejected*), plantea hipótesis, aíslalo, corrígelo y deja pruebas y evidencia para el LT. No finjas la reproducción." |
+| Resultado relevante | Reproducción en un proyecto `safari17` (WebKit + línea base de JS de Safari 17.0), bisección que aísla `Promise.withResolvers`, fix en dos partes (API compatible + paso por `run()`), 3 niveles de regresión y documento E6 con evidencia antes y después. |
+| Ajustes del usuario | (1) **Se verificó empíricamente** antes de elegir el defecto: Playwright trae WebKit 27.2, que soporta `Promise.withResolvers` y el formato de fecha legado, así que reintroducir un defecto de compatibilidad y "probar en WebKit" **no lo habría reproducido**. Se diseñó la emulación de la línea base de Safari 17.0. (2) El commit de reproducción se marcó explícitamente como tal (`chore(e6)`), para que el historial no lo presente como una funcionalidad. (3) **`eslint-plugin-compat` no detectó el defecto** (no revisa built-ins de ECMAScript); se agregó `eslint-plugin-es-x` y se verificó que el lint **falle** con la versión defectuosa. (4) La corrida tras el fix sobrescribió la captura del defecto; se regeneraron las dos (antes y después) restaurando temporalmente el código defectuoso y verificando con hash que el fix quedara intacto. |
+| Decisión | Corregir el **patrón** (todo pasa por `run()`), no solo la API: un polyfill habría resuelto `Promise.withResolvers`, pero no el rechazo sin manejo. |
+| Descartado | (1) Polyfill de `Promise.withResolvers`: solo resuelve la mitad del defecto. (2) Afirmar que pasar en WebKit equivale a pasar en Safari 17. (3) Confiar en un único guardarraíl de lint sin probar que detecta el caso. |
+| Tokens / créditos | No medidos de forma individual. |
+| Tiempo estimado sin IA | 3 h |
+| Tiempo real con IA | 40 min |
+| Observaciones de calidad | Las pruebas Vitest existentes (CA-12, INC-001) **ya detectaban** la mitad del defecto: el hallazgo de proceso es correr `npm run verify` en CI. La verificación en Safari 17.0–17.3 real sigue pendiente (C-06). |
