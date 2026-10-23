@@ -104,8 +104,10 @@ public class ResilientCaller {
             }
         };
 
-        Callable<T> decorated = Retry.decorateCallable(policy.retry(),
-                CircuitBreaker.decorateCallable(policy.circuitBreaker(), timedAttempt));
+        Callable<T> guarded = policy.circuitBreaker() == null
+                ? timedAttempt
+                : CircuitBreaker.decorateCallable(policy.circuitBreaker(), timedAttempt);
+        Callable<T> decorated = Retry.decorateCallable(policy.retry(), guarded);
         try {
             return decorated.call();
         } catch (CallNotPermittedException e) {
@@ -129,6 +131,9 @@ public class ResilientCaller {
                 .retryOnException(ProviderException.class::isInstance)
                 .failAfterMaxAttempts(false)
                 .build());
+        if (!config.circuitBreaker()) {
+            return new Policy(timeLimiter, retry, null);
+        }
         CircuitBreaker circuitBreaker = CircuitBreaker.of(provider.name(), CircuitBreakerConfig.custom()
                 .slidingWindowSize(20)
                 .minimumNumberOfCalls(10)
