@@ -15,6 +15,18 @@ Reglas:
 - Toda rama `feature/*` se integra por Pull Request con revisión de código.
 - Antes del merge: compila, pruebas en verde y checklist del PR completo.
 
+### Protección de ramas (configurada en GitHub)
+
+| Regla | `main` | `develop` |
+|-------|--------|-----------|
+| PR obligatorio (sin push directo) | ✅ | ✅ |
+| Aplica también a administradores | ✅ | ✅ |
+| Force-push / borrado de la rama | ❌ | ❌ |
+| Conversaciones resueltas antes del merge | ✅ | ✅ |
+| Estrategia de merge permitida | solo *merge commit* (equivale a `--no-ff`) | igual |
+
+> Aprobaciones requeridas: **0** en este repositorio de prueba, porque hay un único autor y GitHub no permite aprobar el PR propio. En el equipo real serían **≥ 1 revisor**, más el escaneo de ciberseguridad antes de producción (doc. 08).
+
 ## Convención de commits
 
 [Conventional Commits](https://www.conventionalcommits.org/) con referencia a la HU:
