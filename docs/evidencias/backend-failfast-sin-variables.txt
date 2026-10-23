@@ -1,0 +1,44 @@
+2026-10-22T21:53:24.356-05:00  INFO 4136 --- [contact-update-orchestrator] [           main] c.c.c.ContactUpdateApplication           : Starting ContactUpdateApplication v0.1.0-SNAPSHOT using Java 17.0.18 with PID 4136 (C:\Users\WIN\Documents\proyectos\Colfondos\colfondos_prueba\backend\target\contact-update-orchestrator-0.1.0-SNAPSHOT.jar started by WIN in C:\Users\WIN\Documents\proyectos\Colfondos\colfondos_prueba)
+2026-10-22T21:53:24.359-05:00  INFO 4136 --- [contact-update-orchestrator] [           main] c.c.c.ContactUpdateApplication           : No active profile set, falling back to 1 default profile: "default"
+2026-10-22T21:53:25.387-05:00  INFO 4136 --- [contact-update-orchestrator] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8099 (http)
+2026-10-22T21:53:25.403-05:00  INFO 4136 --- [contact-update-orchestrator] [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-10-22T21:53:25.403-05:00  INFO 4136 --- [contact-update-orchestrator] [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.55]
+2026-10-22T21:53:25.431-05:00  INFO 4136 --- [contact-update-orchestrator] [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2026-10-22T21:53:25.431-05:00  INFO 4136 --- [contact-update-orchestrator] [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1029 ms
+2026-10-22T21:53:25.648-05:00  WARN 4136 --- [contact-update-orchestrator] [           main] ConfigServletWebServerApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'contactUpdateController' defined in URL [jar:nested:/C:/Users/WIN/Documents/proyectos/Colfondos/colfondos_prueba/backend/target/contact-update-orchestrator-0.1.0-SNAPSHOT.jar/!BOOT-INF/classes/!/com/colfondos/contactupdate/api/ContactUpdateController.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'contactUpdateService' defined in URL [jar:nested:/C:/Users/WIN/Documents/proyectos/Colfondos/colfondos_prueba/backend/target/contact-update-orchestrator-0.1.0-SNAPSHOT.jar/!BOOT-INF/classes/!/com/colfondos/contactupdate/service/ContactUpdateService.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'contact-update-com.colfondos.contactupdate.config.ContactUpdateProperties': Could not bind properties to 'ContactUpdateProperties' : prefix=contact-update, ignoreInvalidFields=false, ignoreUnknownFields=true
+2026-10-22T21:53:25.651-05:00  INFO 4136 --- [contact-update-orchestrator] [           main] o.apache.catalina.core.StandardService   : Stopping service [Tomcat]
+2026-10-22T21:53:25.664-05:00  INFO 4136 --- [contact-update-orchestrator] [           main] .s.b.a.l.ConditionEvaluationReportLogger : 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2026-10-22T21:53:25.677-05:00 ERROR 4136 --- [contact-update-orchestrator] [           main] o.s.b.d.LoggingFailureAnalysisReporter   : 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Binding to target com.colfondos.contactupdate.config.ContactUpdateProperties failed:
+
+    Property: contact-update.providers.identity.url
+    Value: ""
+    Reason: define la URL del proveedor (PROVIDER_*_URL)
+
+    Property: contact-update.providers.messaging.url
+    Value: ""
+    Reason: define la URL del proveedor (PROVIDER_*_URL)
+
+    Property: contact-update.corsAllowedOrigins
+    Value: "[]"
+    Origin: class path resource [application.yml] from contact-update-orchestrator-0.1.0-SNAPSHOT.jar - 32:25
+    Reason: define CORS_ALLOWED_ORIGINS
+
+    Property: contact-update.providers.customerData.url
+    Value: ""
+    Reason: define la URL del proveedor (PROVIDER_*_URL)
+
+
+Action:
+
+Update your application's configuration
+

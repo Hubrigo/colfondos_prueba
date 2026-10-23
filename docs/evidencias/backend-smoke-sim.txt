@@ -1,0 +1,24 @@
+PASS  CA-01 inicio de flujo 202  → otpExpiresAt=2026-10-22T21:58:29.3526917-05:00
+PASS  CA-16 correlationId devuelto
+PASS  CA-01 OTP válido
+PASS  CA-01 correo actualizado  → TX-20261022-732DB5 Nu***@dominio.com updatedAt=2026-10-22T21:53:29.3876463-05:00
+PASS  Idempotencia: misma clave, misma transacción
+PASS  CA-01 trazabilidad registrada  → FLOW_STARTED,OTP_SENT,OTP_VERIFIED,EMAIL_UPDATED,NOTIFICATION_SENT,NOTIFICATION_SENT
+PASS  CA-11 auditoría sin OTP ni correo en claro
+PASS  CA-02 documento inválido 400  → [{"field":"documentNumber","message":"Debe tener entre 5 y 15 caracteres, sin espacios ni símbolos"},{"field":"numberValidForType","message":"Ingresa solo números"}]
+PASS  CA-08 correo inválido 400
+PASS  CA-09 correos no coinciden 400  → Los correos no coinciden
+PASS  CA-08 correo igual al actual 422
+PASS  Propiedades desconocidas rechazadas 400
+PASS  CA-03 misma respuesta exista o no
+PASS  CA-04 OTP incorrecto 422 con intentos  → Código incorrecto. Te quedan 2 intentos.
+PASS  CA-05 bloqueo tras 3 intentos 423
+PASS  CA-05 bloqueado aun con el código correcto
+PASS  Reenvío antes de 30 s → 429  → Podrás solicitar un nuevo código en 29 segundos.
+PASS  CA-10 actualización sin OTP → 403
+PASS  CA-12 timeout + reintento → 200  → 3231 ms
+PASS  CA-13 Identity caído → 503  → IDENTITY_CAPABILITY, 311 ms
+PASS  CA-14 Messaging caído → UPDATED + PENDING  → 3048 ms
+PASS  Flujo inexistente → 404
+
+22/22 verificaciones OK
