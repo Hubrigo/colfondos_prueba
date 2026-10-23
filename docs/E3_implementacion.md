@@ -142,7 +142,7 @@ Comandos, documentos de prueba y solución de problemas: [README → Arranque lo
 
 - El backend las valida con `@ConfigurationProperties` + `@Validated`. Si falta una obligatoria, el arranque falla nombrando cada propiedad. Lo cubre `ContactUpdatePropertiesTest` y la evidencia está en `docs/evidencias/backend-failfast-sin-variables.txt`.
 - En el frontend, si falta `VITE_API_BASE_URL` en build, la app muestra un error de configuración en lugar de arrancar a medias.
-- **Plantillas:** `frontend/.env.example` (versionado). Plantilla para el backend:
+- **Plantillas:** [`backend/.env.example`](../backend/.env.example) y [`frontend/.env.example`](../frontend/.env.example), ambas versionadas. Variables del backend:
 
 ```dotenv
 # Obligatorias fuera del perfil sim
