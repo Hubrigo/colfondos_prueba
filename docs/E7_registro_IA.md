@@ -134,3 +134,19 @@ Los commits con código asistido llevan el trailer `AI-Assisted:` para vincularl
 | Tiempo estimado sin IA | 3 h |
 | Tiempo real con IA | 40 min |
 | Observaciones de calidad | Las pruebas Vitest existentes (CA-12, INC-001) **ya detectaban** la mitad del defecto: el hallazgo de proceso es correr `npm run verify` en CI. La verificación en Safari 17.0–17.3 real sigue pendiente (C-06). |
+
+## IA-08: Implementación y pipeline CI (E3)
+
+| Campo | Registro |
+|-------|----------|
+| Iniciativa / HU | HU-CONTACT-001 |
+| Herramienta | Claude Code + GitHub CLI (Actions y protección de ramas) |
+| Prompt relevante | "Documenta E3 (tareas técnicas, estructura, ramas, configuración local, README, variables, plantilla de PR) e incluye un pipeline de CI que corra mvn test y npm run verify en cada PR." |
+| Resultado relevante | Pipeline de 3 jobs (backend, frontend y e2e en 4 proyectos), **verde al primer intento** en Linux (45 s + 24 s + 126 s), y convertido en check obligatorio de merge en `develop` y `main`. README completo, plantilla de PR con checklist de despliegue, E3 con 23 tareas (13 hechas y 10 pendientes para producción), gitGraph del historial real y plan de despliegue del doc. 12. |
+| Ajustes del usuario | (1) Se consultaron las versiones vigentes de las Actions (`checkout@v7`, `setup-java@v6`, `setup-node@v7`, `upload/download-artifact@v7/v8`) en lugar de usar las que la IA recordaba. (2) Se validó el pipeline **ejecutándolo** (PR borrador) antes de documentarlo, y los números de E3 son los del run real. (3) Se verificó que el comando de arranque del README (`mvn spring-boot:run` con perfil `sim`) funcione. (4) Una regla de permisos (`deny Read(./.env.*)`, creada por `ruflo init`) bloqueó escribir `backend/.env.example`; **no se esquivó**: el contenido quedó en E3 §5 y se consultó al usuario. |
+| Decisión | Aceptado. Los 3 jobs son *required status checks* en modo *strict*. |
+| Descartado | (1) Correr e2e solo en Chromium para acelerar: se perdería justo la cobertura de Safari (INC-001). (2) Escribir el `.env.example` por bash para saltar la regla de permisos. |
+| Tokens / créditos | No medidos de forma individual. |
+| Tiempo estimado sin IA | 3 h |
+| Tiempo real con IA | 35 min |
+| Observaciones de calidad | El pipeline confirmó en Linux lo que solo se había probado en Windows. |
