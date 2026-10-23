@@ -24,7 +24,7 @@ export default defineConfig({
   ],
   webServer: [
     {
-      command: 'java -jar ../backend/target/contact-update-orchestrator-0.1.0-SNAPSHOT.jar --spring.profiles.active=sim',
+      command: 'java -jar ../backend/target/contact-update-orchestrator.jar --spring.profiles.active=sim',
       url: 'http://localhost:8080/actuator/health',
       env: { RATE_LIMIT_MAX_FLOWS_PER_DOCUMENT: '100', RATE_LIMIT_MAX_FLOWS_PER_IP: '500' },
       reuseExistingServer: false,

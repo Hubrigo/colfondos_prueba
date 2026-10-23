@@ -59,7 +59,7 @@ Asistente web (React) que guía al afiliado por identificación → OTP por SMS 
 ```bash
 cd backend
 mvn spring-boot:run -Dspring-boot.run.profiles=sim
-# o: mvn package && java -jar target/contact-update-orchestrator-0.1.0-SNAPSHOT.jar --spring.profiles.active=sim
+# o: mvn package && java -jar target/contact-update-orchestrator.jar --spring.profiles.active=sim
 ```
 
 Queda en `http://localhost:8080` · salud: `GET /actuator/health`.

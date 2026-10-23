@@ -67,6 +67,8 @@
   </dependencies>
 
   <build>
+    <!-- Nombre estable del jar (sin versión): CI, Playwright y el README no cambian en cada release -->
+    <finalName>contact-update-orchestrator</finalName>
     <plugins>
       <plugin>
         <groupId>org.springframework.boot</groupId>

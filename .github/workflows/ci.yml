@@ -42,7 +42,7 @@ jobs:
         uses: actions/upload-artifact@v7
         with:
           name: backend-jar
-          path: backend/target/contact-update-orchestrator-*.jar
+          path: backend/target/contact-update-orchestrator.jar
           retention-days: 1
 
   frontend:
