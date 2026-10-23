@@ -54,3 +54,19 @@ Los commits con código asistido llevan el trailer `AI-Assisted:` para vincularl
 | Tiempo estimado sin IA | 90 min |
 | Tiempo real con IA | 25 min |
 | Observaciones de calidad | Se verificó que cada criterio de E1 (CA-01 a CA-16) tenga respaldo en el diseño: errores, datos sintéticos o controles. |
+
+## IA-03: Backend Spring Boot (paso 3, soporte de E2 y E4)
+
+| Campo | Registro |
+|-------|----------|
+| Iniciativa / HU | HU-CONTACT-001 |
+| Herramienta | Claude Code (generación de código y ejecución de build y pruebas de humo) |
+| Prompt relevante | "Implementa el contrato de E2 en Spring Boot 3 / Java 17: endpoints, clientes simulados de las 3 APIs, correlationId, manejador global de errores, timeouts, reintentos y circuit breaker por proveedor, y auditoría sin biometría." |
+| Resultado relevante | 30 clases en 8 paquetes. Compila y levanta el contexto. La prueba de humo `scripts/smoke-backend.mjs` pasa 22/22 escenarios (CA-01 a CA-16 más idempotencia). Evidencias en `docs/evidencias/`. |
+| Ajustes del usuario | La primera prueba de humo **falló en 9 de 22** y reveló 5 defectos, todos corregidos: (1) `spring.mvc.problemdetails.enabled` registraba el manejador de Spring, que le ganaba al nuestro y quitaba `code` y `correlationId`, contra el diseño de un único manejador; (2) un único límite de 5 flujos por IP es irreal con NAT u oficinas, así que se separó en 5 por documento y 30 por IP; (3) el `transactionId` incluía el offset horario; (4) sin variables, el arranque fallaba con "bean no encontrado" en lugar de nombrar la variable (INC-004), y se corrigió con el orden del constructor; (5) las tildes salían dañadas en los logs (cp1252 en Windows), y se fijó `logging.charset.console=UTF-8`. |
+| Decisión | Aceptado con correcciones. Resilience4j se aplica de forma **programática** por proveedor (`ResilientCaller`) en lugar de con anotaciones, para controlar qué se reintenta y propagar el MDC al hilo del proveedor. |
+| Descartado | (1) Anotaciones `@Retry` y `@TimeLimiter`: requieren AOP y no permiten propagar el correlationId al hilo del time limiter. (2) Spring Security completo: está fuera del alcance de la prueba; los controles quedan documentados en E2 §6. (3) Imprimir el OTP simulado en el log para facilitar la demo: viola la regla de nunca registrar el código, así que se usa `SIM_FIXED_OTP`. |
+| Tokens / créditos | No medidos de forma individual. |
+| Tiempo estimado sin IA | 4 h |
+| Tiempo real con IA | 50 min |
+| Observaciones de calidad | La IA generó código que compiló al primer intento, pero **5 defectos solo aparecieron al ejecutar** los escenarios. La prueba de humo contra el servicio levantado fue la validación decisiva. Se verificó por `grep` que los logs no contienen el OTP ni correos en claro. |
