@@ -11,10 +11,11 @@
 | Unitarias backend | JUnit 5 + Mockito + AssertJ | Reglas de la HU en `ContactUpdateService` con proveedores mockeados y reloj controlable; política de resiliencia real; enmascaramiento; fail-fast de configuración | `backend/src/test/java/**` |
 | Integración backend | Spring Boot Test + **MockMvc** (perfil `sim`) | Contrato HTTP de E2 §3, formato ProblemDetail, `correlationId` y escenarios de proveedor sobre los adaptadores simulados | `ContactUpdateControllerIntegrationTest` |
 | Unitarias frontend | **Vitest** + Testing Library + jsdom | Validaciones, fechas, UUID, cliente HTTP (timeouts, errores), reducer y asistente completo con API falsa | `frontend/src/**/*.test.{js,jsx}` |
-| End-to-end | **Playwright** | Flujo real navegador → Vite → backend `sim` en **Chromium, Edge y WebKit**; falla ante cualquier error en consola | `frontend/e2e/wizard.spec.js` |
+| Estático | **ESLint** (`es-x/restrict-to-es2023` + `compat/compat`) | APIs de ECMAScript y web no disponibles en Safari 17 / Chrome / Edge 111 (prevención de INC-001) | `frontend/eslint.config.js` (`npm run lint`) |
+| End-to-end | **Playwright** | Flujo real navegador → Vite → backend `sim` en **Chromium, Edge, WebKit y `safari17`** (WebKit con la línea base de JS de Safari 17.0, ver E6); falla ante cualquier error en consola | `frontend/e2e/*.spec.js` |
 | Humo de API | Node (`fetch`) | 22 verificaciones contra el servicio levantado (útil para la sustentación) | `scripts/smoke-backend.mjs` |
 
-**Criterio de salida propuesto (DoD de pruebas):** las 4 suites en verde, cobertura de líneas ≥ 80 % en backend y frontend, e2e en los 3 navegadores sin errores de consola, y la ejecución manual en Safari 17 real (§5) firmada por QA.
+**Criterio de salida propuesto (DoD de pruebas):** las 4 suites en verde, cobertura de líneas ≥ 80 % en backend y frontend, lint sin errores, e2e en los 4 proyectos sin errores de consola, y la ejecución manual en Safari 17 real (§5) firmada por QA.
 
 ---
 
@@ -24,9 +25,9 @@
 |-------|---------|-----------|-----------|
 | Backend: unitarias + integración | `mvn -f backend test` | **55/55** ✅ (6 clases) | `docs/evidencias/backend-pruebas.txt` |
 | Cobertura backend (JaCoCo) | `target/site/jacoco/index.html` | **94,8 % líneas · 76,3 % ramas** | `docs/evidencias/backend-cobertura-jacoco.txt` |
-| Frontend: Vitest | `npm test` | **67/67** ✅ (5 archivos) | `docs/evidencias/frontend-vitest.txt` |
+| Frontend: Vitest | `npm test` | **72/72** ✅ (6 archivos) | `docs/evidencias/frontend-vitest.txt` |
 | Cobertura frontend (v8) | `npm run test:coverage` | **92,9 % líneas · 91,8 % ramas** | idem |
-| E2E en 3 navegadores | `npm run test:e2e` | **15/15** ✅ (5 escenarios × Chromium, Edge, WebKit) | `docs/evidencias/frontend-e2e-navegadores.txt` + capturas |
+| E2E en 4 proyectos | `npm run test:e2e` | **26/26** ✅ (6 escenarios × Chromium, Edge, WebKit y safari17 + 2 de bisección en WebKit) | `docs/evidencias/frontend-e2e-navegadores.txt` + capturas |
 | Humo de API | `node scripts/smoke-backend.mjs` | **22/22** ✅ | `docs/evidencias/backend-smoke-sim.txt` |
 
 Detalle del backend por clase:
@@ -113,13 +114,14 @@ Leyenda de nivel: **U-B** unitaria backend · **I-B** integración backend (Mock
 | C-04 | Fecha inválida o en formato no ISO: `formatDateTime` no lanza | INC-001 | U-F | `una fecha inválida (…) no lanza` | ✅ |
 | C-05 | Detección de Safari, Edge y Chrome para el indicador "errores por navegador" | doc. 11 | U-B | `detectaNavegador` | ✅ |
 | C-06 | **Safari 17 real** (macOS e iOS): flujo completo, consola limpia, autocompletado del OTP por SMS | CA-15 | **M** | Ver §5: Playwright WebKit **no es** Safari 17 | ⏳ QA |
-| C-07 | Defecto de Safari 17 reportado por QA (confirmación con HTTP 200 y *Promise rejected*) | INC-001 | E2E + U-F | Se aborda en **E6** (paso 7), con su prueba de regresión | ⏳ E6 |
+| C-07 | Defecto de Safari 17 reportado por QA (confirmación con HTTP 200 y *Promise rejected*) | INC-001 | E2E + U-F | `safari17.spec.js` (4 proyectos), `timing.test.js`, `E6: en Safari 17.0…` (ver E6) | ✅ |
+| C-08 | Uso de built-ins de ES2024+ (p. ej. `Promise.withResolvers`) bloqueado por lint | INC-001 | Estático | `npm run lint`: falla con la versión defectuosa (`e6-6-lint-detecta-defecto.txt`) | ✅ |
 
 ### 3.6 Regresión
 
 | ID | Qué protege | Origen | Prueba automatizada |
 |----|-------------|--------|---------------------|
-| R-01 | Errores JS en Safari | INC-001 | C-01, C-02, C-03, C-04 y E6 |
+| R-01 | Errores JS en Safari | INC-001 | C-01 a C-05, C-07, C-08 (E6) |
 | R-02 | Timeouts con proveedor síncrono | INC-002 | P-01, P-02, P-08 |
 | R-03 | OTP que expira antes de terminar | INC-003 | N-05, N-06, F-05 y la vigencia de 5 min (S-03) en `afiliadoActivoRecibeOtpPorSms…` |
 | R-04 | Variable de ambiente faltante | INC-004 | `ContactUpdatePropertiesTest` (3) + evidencia `backend-failfast-sin-variables.txt` |
