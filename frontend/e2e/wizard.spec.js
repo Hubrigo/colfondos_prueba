@@ -1,4 +1,11 @@
 import { expect, test } from '@playwright/test';
+import { SAFARI_17_MISSING_APIS, safari17InitScript } from './safari17-baseline.js';
+
+test.beforeEach(async ({ page }, testInfo) => {
+  if (testInfo.project.name === 'safari17') {
+    await page.addInitScript(safari17InitScript, SAFARI_17_MISSING_APIS);
+  }
+});
 
 const OTP = '123456';
 const EVIDENCE = '../docs/evidencias';
