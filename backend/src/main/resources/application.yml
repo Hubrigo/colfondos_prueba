@@ -1,0 +1,59 @@
+# Configuración base. Los valores obligatorios no tienen default:
+# si falta una variable, el arranque falla y nombra la propiedad (lección de INC-004).
+server:
+  port: ${SERVER_PORT:8080}
+
+spring:
+  application:
+    name: contact-update-orchestrator
+  jackson:
+    deserialization:
+      fail-on-unknown-properties: true
+    serialization:
+      write-dates-as-timestamps: false
+  # spring.mvc.problemdetails queda deshabilitado (default): GlobalExceptionHandler es el
+  # único que construye ProblemDetail, con code y correlationId (E2 §5.1).
+
+logging:
+  charset:
+    console: UTF-8
+  structured:
+    format:
+      console: ecs
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,metrics
+
+contact-update:
+  zone-id: America/Bogota
+  cors-allowed-origins: ${CORS_ALLOWED_ORIGINS:}
+  flow-ttl: ${FLOW_TTL:PT10M}
+  otp:
+    ttl: ${OTP_TTL:PT5M}
+    max-attempts: ${OTP_MAX_ATTEMPTS:3}
+    resend-cooldown: ${OTP_RESEND_COOLDOWN:PT30S}
+    max-resends: ${OTP_MAX_RESENDS:3}
+  rate-limit:
+    max-flows-per-document: ${RATE_LIMIT_MAX_FLOWS_PER_DOCUMENT:5}
+    # Más alto que por documento: muchas personas comparten IP (oficinas, NAT, operadores móviles).
+    max-flows-per-ip: ${RATE_LIMIT_MAX_FLOWS_PER_IP:30}
+    window: ${RATE_LIMIT_WINDOW:PT15M}
+  providers:
+    customer-data:
+      url: ${PROVIDER_CUSTOMER_DATA_URL:}
+      timeout: ${PROVIDER_TIMEOUT:PT3S}
+      max-retries: 2
+      backoff: PT0.2S
+    identity:
+      url: ${PROVIDER_IDENTITY_URL:}
+      timeout: ${PROVIDER_TIMEOUT:PT3S}
+      max-retries: 1
+      backoff: PT0.3S
+    messaging:
+      url: ${PROVIDER_MESSAGING_URL:}
+      timeout: ${PROVIDER_MESSAGING_TIMEOUT:PT2S}
+      max-retries: 2
+      backoff: PT0.5S

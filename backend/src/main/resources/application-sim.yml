@@ -1,0 +1,14 @@
+# Perfil de simulación: APIs corporativas simuladas y datos sintéticos (E2 §9).
+# Nunca se activa en producción: SIM_FIXED_OTP solo existe en este perfil.
+contact-update:
+  cors-allowed-origins: ${CORS_ALLOWED_ORIGINS:http://localhost:5173}
+  providers:
+    customer-data:
+      url: ${PROVIDER_CUSTOMER_DATA_URL:sim://customer-data}
+    identity:
+      url: ${PROVIDER_IDENTITY_URL:sim://identity}
+    messaging:
+      url: ${PROVIDER_MESSAGING_URL:sim://messaging}
+  simulation:
+    fixed-otp: ${SIM_FIXED_OTP:123456}
+    slow-call-delay: ${SIM_SLOW_CALL_DELAY:PT4S}
