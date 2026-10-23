@@ -1,6 +1,7 @@
 import { useCallback, useReducer } from 'react';
 import { contactUpdateApi } from '../api/contactUpdateApi.js';
 import { normalizeEmail } from '../validation/rules.js';
+import { minimumDelay } from '../utils/timing.js';
 import { initialState, reducer, STEPS } from './reducer.js';
 import { Stepper } from './steps/Stepper.jsx';
 import { ErrorBanner } from './steps/ErrorBanner.jsx';
@@ -49,11 +50,12 @@ export function ContactUpdateWizard({ api = contactUpdateApi }) {
       email: { newEmail: normalizeEmail(email.newEmail), confirmEmail: normalizeEmail(email.confirmEmail) },
     });
 
-  const confirmUpdate = () =>
-    run(
-      () => api.updateEmail(state.flow.flowId, state.email, { correlationId, idempotencyKey: state.idempotencyKey }),
-      (result) => dispatch({ type: 'UPDATED', result }),
-    );
+  const confirmUpdate = () => {
+    const startedAt = Date.now();
+    dispatch({ type: 'REQUEST' });
+    api.updateEmail(state.flow.flowId, state.email, { correlationId, idempotencyKey: state.idempotencyKey })
+      .then((result) => minimumDelay(startedAt).then(() => dispatch({ type: 'UPDATED', result })));
+  };
 
   const restart = () => dispatch({ type: 'RESTART' });
   const markOtpExpired = useCallback(() => dispatch({ type: 'OTP_EXPIRED_LOCALLY' }), []);
