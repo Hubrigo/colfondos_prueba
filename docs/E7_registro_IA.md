@@ -86,3 +86,19 @@ Los commits con código asistido llevan el trailer `AI-Assisted:` para vincularl
 | Tiempo estimado sin IA | 3 h |
 | Tiempo real con IA | 45 min |
 | Observaciones de calidad | Las pruebas e2e en navegadores reales encontraron un defecto del **backend** que la prueba de humo con `fetch` no podía ver, porque solo aparece al encadenar escenarios. Probar en WebKit desde el inicio deja lista la base para E6. |
+
+## IA-05: Pruebas (E5)
+
+| Campo | Registro |
+|-------|----------|
+| Iniciativa / HU | HU-CONTACT-001 |
+| Herramienta | Claude Code (generación y ejecución de JUnit, Mockito, MockMvc, Vitest y Playwright) |
+| Prompt relevante | "Construye pruebas unitarias (JUnit + Mockito), de integración (MockMvc) y de frontend (Vitest) que cubran CA-01 a CA-16 y los incidentes; arma la matriz de pruebas con negativas, regresión, Safari y proveedor caído." |
+| Resultado relevante | Backend **55/55** (94,8 % líneas); frontend **67/67** (92,9 % líneas); e2e **15/15** en 3 navegadores. Matriz con 56 casos en 7 categorías, cruzados con CA e INC. |
+| Ajustes del usuario | Errores en las **pruebas generadas** detectados al compilar o ejecutar: (1) helpers `post/put/verify` que ocultaban los `import static` de MockMvc (no compilaban); (2) la clase `…IT` no la ejecuta Surefire, así que se renombró a `…IntegrationTest`; (3) un cálculo errado del momento en que se abre el circuito (el 10.º fallo ocurre dentro de la 4.ª llamada); (4) el `flujoCompleto` de MockMvc no reenviaba el `correlationId` como sí hace el frontend; (5) sin `globals: true`, Testing Library no limpia el DOM entre pruebas (9 fallas falsas). Ningún hallazgo resultó ser un defecto del producto. |
+| Decisión | Aceptado con correcciones. En la prueba del servicio, el `ResilientCaller` se mockea para aislar las reglas; su política real se prueba aparte, con timeouts de 200 ms. |
+| Descartado | (1) Testcontainers o Wiremock: no hay contratos reales contra los cuales probar (L-03). (2) Tiempos de espera reales con `sleep` para probar la vigencia del OTP: se usa un `MutableClock`. (3) Declarar que WebKit de Playwright equivale a Safari 17: se documenta la limitación y la prueba manual C-06. |
+| Tokens / créditos | No medidos de forma individual. |
+| Tiempo estimado sin IA | 4 h |
+| Tiempo real con IA | 45 min |
+| Observaciones de calidad | Las pruebas generadas por IA también necesitan revisión: 5 de sus defectos eran de las pruebas mismas. Se exigió que cada prueba falle por la razón correcta. Por ejemplo, el filtro de CA-02 en e2e daba un falso positivo con los módulos de Vite (IA-04). |
