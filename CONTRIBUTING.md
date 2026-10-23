@@ -24,6 +24,8 @@ Reglas:
 | Aplica también a administradores | ✅ | ✅ |
 | Force-push / borrado de la rama | ❌ | ❌ |
 | Conversaciones resueltas antes del merge | ✅ | ✅ |
+| CI obligatorio: `Backend · mvn verify`, `Frontend · lint + Vitest + build`, `E2E · Chromium, Edge, WebKit, safari17` | ✅ | ✅ |
+| Rama al día con la base antes del merge (*strict*) | ✅ | ✅ |
 | Estrategia de merge permitida | solo *merge commit* (equivale a `--no-ff`) | igual |
 
 > Aprobaciones requeridas: **0** en este repositorio de prueba, porque hay un único autor y GitHub no permite aprobar el PR propio. En el equipo real serían **≥ 1 revisor**, más el escaneo de ciberseguridad antes de producción (doc. 08).
