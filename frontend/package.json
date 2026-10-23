@@ -1,7 +1,7 @@
 {
   "name": "contact-update-wizard",
   "private": true,
-  "version": "0.1.0",
+  "version": "0.2.0-snapshot",
   "description": "Asistente de actualización de correo del afiliado (HU-CONTACT-001)",
   "type": "module",
   "engines": {

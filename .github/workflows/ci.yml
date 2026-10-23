@@ -88,6 +88,9 @@ jobs:
           cache-dependency-path: frontend/package-lock.json
       - run: npm ci
       - name: Navegadores de referencia de QA (doc. 09)
+        # Normalmente tarda ~1 min. En el release 0.1.0 el runner se colgó 20 min en apt:
+        # mejor fallar rápido y reintentar que agotar el timeout del job.
+        timeout-minutes: 5
         run: npx playwright install --with-deps chromium webkit msedge
       - name: Playwright (levanta el backend sim y Vite)
         run: npx playwright test
