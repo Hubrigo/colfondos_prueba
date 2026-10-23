@@ -38,3 +38,19 @@ Los commits con código asistido llevan el trailer `AI-Assisted:` para vincularl
 | Tiempo estimado sin IA | 60 min |
 | Tiempo real con IA | 20 min |
 | Observaciones de calidad | Cada hecho se verificó contra el documento citado. Las inferencias que la IA presentaba como hechos se reclasificaron como supuestos. |
+
+## IA-02: Diseño técnico (E2)
+
+| Campo | Registro |
+|-------|----------|
+| Iniciativa / HU | HU-CONTACT-001 |
+| Herramienta | Claude Code + ruflo memory (recuperación de las decisiones de E1: `decision-S01-otp`) |
+| Prompt relevante | "Con E1 como base, diseña componentes, contrato de la API del orquestador, diagrama de secuencia, catálogo de errores, resiliencia, seguridad, trazabilidad y variables de ambiente; llena la plantilla de la sección 8." |
+| Resultado relevante | 6 decisiones de arquitectura con su alternativa descartada, 4 endpoints, 2 diagramas Mermaid, catálogo de 12 errores, tabla de resiliencia por proveedor, matriz de seguridad OWASP, modelo de auditoría sin biometría y datos sintéticos por escenario. |
+| Ajustes del usuario | Se impuso que el token de verificación **no viaje al navegador** (estado en servidor, D-04). Se definió que la actualización solo se reintenta porque es idempotente (`Idempotency-Key`). Se verificó el presupuesto de tiempo de la validación (≈ 6,3 s en el peor caso frente al límite de 60 s). |
+| Decisión | Aceptado con ajustes. El diseño es el contrato de los pasos 3 y 4. |
+| Descartado | (1) JWT de verificación en el navegador. (2) Reintentar `OTP_INVALID` o errores 4xx. (3) Revertir la actualización si falla Messaging. (4) Wiremock o contenedores para simular: es más pesado de lo que permite el tiempo de la prueba. |
+| Tokens / créditos | No medidos de forma individual. |
+| Tiempo estimado sin IA | 90 min |
+| Tiempo real con IA | 25 min |
+| Observaciones de calidad | Se verificó que cada criterio de E1 (CA-01 a CA-16) tenga respaldo en el diseño: errores, datos sintéticos o controles. |
