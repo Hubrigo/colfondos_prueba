@@ -50,11 +50,20 @@ export function ContactUpdateWizard({ api = contactUpdateApi }) {
       email: { newEmail: normalizeEmail(email.newEmail), confirmEmail: normalizeEmail(email.confirmEmail) },
     });
 
+  // E6: la confirmación pasa por `run` como todas las llamadas; el retardo mínimo se combina con
+  // Promise.all, así que un rechazo de cualquiera de las dos promesas queda manejado.
   const confirmUpdate = () => {
     const startedAt = Date.now();
-    dispatch({ type: 'REQUEST' });
-    api.updateEmail(state.flow.flowId, state.email, { correlationId, idempotencyKey: state.idempotencyKey })
-      .then((result) => minimumDelay(startedAt).then(() => dispatch({ type: 'UPDATED', result })));
+    return run(
+      async () => {
+        const [result] = await Promise.all([
+          api.updateEmail(state.flow.flowId, state.email, { correlationId, idempotencyKey: state.idempotencyKey }),
+          minimumDelay(startedAt),
+        ]);
+        return result;
+      },
+      (result) => dispatch({ type: 'UPDATED', result }),
+    );
   };
 
   const restart = () => dispatch({ type: 'RESTART' });
