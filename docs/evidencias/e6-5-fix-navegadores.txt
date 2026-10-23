@@ -1,0 +1,6 @@
+Running 4 tests using 1 worker
+  ok 1 [chromium] › e2e\safari17.spec.js:17:1 › E6: confirmar la actualización termina sin errores JS aunque el API responda 200 (1.5s)
+  ok 2 [edge] › e2e\safari17.spec.js:17:1 › E6: confirmar la actualización termina sin errores JS aunque el API responda 200 (1.5s)
+  ok 3 [webkit] › e2e\safari17.spec.js:17:1 › E6: confirmar la actualización termina sin errores JS aunque el API responda 200 (2.2s)
+  ok 4 [safari17] › e2e\safari17.spec.js:17:1 › E6: confirmar la actualización termina sin errores JS aunque el API responda 200 (2.2s)
+  4 passed (14.0s)

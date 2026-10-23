@@ -1,0 +1,35 @@
+Running 32 tests using 1 worker
+  -   1 [chromium] › e2e\safari17-aislamiento.spec.js:13:3 › E6 aislamiento: solo sin Promise.withResolvers
+  -   2 [chromium] › e2e\safari17-aislamiento.spec.js:13:3 › E6 aislamiento: sin todas las demás APIs, con Promise.withResolvers
+  ok  3 [chromium] › e2e\safari17.spec.js:17:1 › E6: confirmar la actualización termina sin errores JS aunque el API responda 200 (1.5s)
+  ok  4 [chromium] › e2e\wizard.spec.js:44:1 › CA-01 / CA-15: actualización completa sin errores JS (1.4s)
+  ok  5 [chromium] › e2e\wizard.spec.js:66:1 › CA-04: OTP incorrecto muestra intentos restantes (430ms)
+  ok  6 [chromium] › e2e\wizard.spec.js:72:1 › CA-02 / CA-09: validaciones en línea sin llamar al backend (324ms)
+  ok  7 [chromium] › e2e\wizard.spec.js:83:1 › CA-13: proveedor de identidad caído muestra mensaje claro (648ms)
+  ok  8 [chromium] › e2e\wizard.spec.js:89:1 › CA-14: Messaging caído no impide la actualización (3.9s)
+  -   9 [edge] › e2e\safari17-aislamiento.spec.js:13:3 › E6 aislamiento: solo sin Promise.withResolvers
+  -  10 [edge] › e2e\safari17-aislamiento.spec.js:13:3 › E6 aislamiento: sin todas las demás APIs, con Promise.withResolvers
+  ok 11 [edge] › e2e\safari17.spec.js:17:1 › E6: confirmar la actualización termina sin errores JS aunque el API responda 200 (1.4s)
+  ok 12 [edge] › e2e\wizard.spec.js:44:1 › CA-01 / CA-15: actualización completa sin errores JS (1.5s)
+  ok 13 [edge] › e2e\wizard.spec.js:66:1 › CA-04: OTP incorrecto muestra intentos restantes (449ms)
+  ok 14 [edge] › e2e\wizard.spec.js:72:1 › CA-02 / CA-09: validaciones en línea sin llamar al backend (371ms)
+  ok 15 [edge] › e2e\wizard.spec.js:83:1 › CA-13: proveedor de identidad caído muestra mensaje claro (678ms)
+  ok 16 [edge] › e2e\wizard.spec.js:89:1 › CA-14: Messaging caído no impide la actualización (3.9s)
+  ok 17 [webkit] › e2e\safari17-aislamiento.spec.js:13:3 › E6 aislamiento: solo sin Promise.withResolvers (2.0s)
+  ok 18 [webkit] › e2e\safari17-aislamiento.spec.js:13:3 › E6 aislamiento: sin todas las demás APIs, con Promise.withResolvers (2.0s)
+  ok 19 [webkit] › e2e\safari17.spec.js:17:1 › E6: confirmar la actualización termina sin errores JS aunque el API responda 200 (2.1s)
+  ok 20 [webkit] › e2e\wizard.spec.js:44:1 › CA-01 / CA-15: actualización completa sin errores JS (2.3s)
+  ok 21 [webkit] › e2e\wizard.spec.js:66:1 › CA-04: OTP incorrecto muestra intentos restantes (806ms)
+  ok 22 [webkit] › e2e\wizard.spec.js:72:1 › CA-02 / CA-09: validaciones en línea sin llamar al backend (560ms)
+  ok 23 [webkit] › e2e\wizard.spec.js:83:1 › CA-13: proveedor de identidad caído muestra mensaje claro (928ms)
+  ok 24 [webkit] › e2e\wizard.spec.js:89:1 › CA-14: Messaging caído no impide la actualización (4.6s)
+  -  25 [safari17] › e2e\safari17-aislamiento.spec.js:13:3 › E6 aislamiento: solo sin Promise.withResolvers
+  -  26 [safari17] › e2e\safari17-aislamiento.spec.js:13:3 › E6 aislamiento: sin todas las demás APIs, con Promise.withResolvers
+  ok 27 [safari17] › e2e\safari17.spec.js:17:1 › E6: confirmar la actualización termina sin errores JS aunque el API responda 200 (2.2s)
+  ok 28 [safari17] › e2e\wizard.spec.js:44:1 › CA-01 / CA-15: actualización completa sin errores JS (2.3s)
+  ok 29 [safari17] › e2e\wizard.spec.js:66:1 › CA-04: OTP incorrecto muestra intentos restantes (869ms)
+  ok 30 [safari17] › e2e\wizard.spec.js:72:1 › CA-02 / CA-09: validaciones en línea sin llamar al backend (548ms)
+  ok 31 [safari17] › e2e\wizard.spec.js:83:1 › CA-13: proveedor de identidad caído muestra mensaje claro (920ms)
+  ok 32 [safari17] › e2e\wizard.spec.js:89:1 › CA-14: Messaging caído no impide la actualización (4.6s)
+  6 skipped
+  26 passed (51.1s)

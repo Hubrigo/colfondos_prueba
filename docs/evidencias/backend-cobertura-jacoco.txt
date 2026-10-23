@@ -1,0 +1,12 @@
+paquete | líneas | ramas
+.config | 100.0% | -
+.observability | 92.7% | 84.6%
+.api | 85.2% | 58.3%
+.audit | 95.6% | 50.0%
+.client.sim | 94.7% | 71.9%
+.service | 97.4% | 80.6%
+.resilience | 93.0% | 75.0%
+(raíz) | 33.3% | -
+.error | 92.9% | 50.0%
+.client | 100.0% | -
+TOTAL | 94.8% | 76.3%
