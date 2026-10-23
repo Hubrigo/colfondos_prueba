@@ -14,5 +14,11 @@ export default defineConfig({
     include: ['src/**/*.test.{js,jsx}'],
     setupFiles: ['./src/test-setup.js'],
     restoreMocks: true,
+    coverage: {
+      provider: 'v8',
+      include: ['src/**/*.{js,jsx}'],
+      exclude: ['src/**/*.test.{js,jsx}', 'src/main.jsx', 'src/test-setup.js'],
+      reporter: ['text-summary', 'html'],
+    },
   },
 });
