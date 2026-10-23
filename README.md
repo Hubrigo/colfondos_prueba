@@ -72,7 +72,12 @@ npm ci
 npm run dev        # http://localhost:5173  (en dev usa http://localhost:8080 si no hay VITE_API_BASE_URL)
 ```
 
-**3. Probar**: abrir `http://localhost:5173` y usar un documento sintético. OTP: **`123456`**.
+**3. Probar**: abrir `http://localhost:5173`.
+
+> **Datos de prueba**
+> - Tipo de documento: **Cédula de ciudadanía** (todos los datos sintéticos son CC).
+> - Número: uno de la tabla, por ejemplo **`1012345678`**.
+> - Código de verificación (OTP): **`123456`**. No se muestra en pantalla ni en los logs, porque nunca se registran OTP; es el valor fijo del perfil `sim` (`SIM_FIXED_OTP`).
 
 | Documento (CC) | Escenario |
 |----------------|-----------|
@@ -81,7 +86,9 @@ npm run dev        # http://localhost:5173  (en dev usa http://localhost:8080 si
 | `1000000002` | Identity Capability caído → mensaje claro (503) |
 | `1000000003` | Messaging caído → correo actualizado, notificación `PENDING` |
 | `1000000004` | Correo actual `actual@correo.com` → probar "igual al actual" |
-| otro | Afiliado inexistente: misma respuesta (anti-enumeración) |
+| otro número u otro tipo | Afiliado inexistente: la pantalla es idéntica (anti-enumeración, CA-03), pero **ningún código funciona**, ni siquiera `123456`. En los logs queda como `FLOW_STARTED FAILURE` |
+
+Con un OTP incorrecto (p. ej. `000000`) se ven los intentos restantes; al tercero, el bloqueo.
 
 Trazabilidad de un flujo (solo perfil `sim`): `GET /api/v1/contact-update/flows/{flowId}/audit`.
 
@@ -150,6 +157,7 @@ Los errores siguen RFC 7807 (`application/problem+json`) con `code` y `correlati
 | Síntoma | Causa y solución |
 |---------|------------------|
 | `APPLICATION FAILED TO START … define la URL del proveedor` | Falta una variable obligatoria: usa `--spring.profiles.active=sim` en local o define las de la tabla |
+| "Código incorrecto" aun con `123456` | El documento no es de la tabla o el tipo no es Cédula de ciudadanía: es un flujo señuelo. Cancela y usa `CC 1012345678` |
 | `429 RATE_LIMITED` al repetir pruebas | Límite de 5 flujos por documento cada 15 min: reinicia el backend o sube `RATE_LIMIT_MAX_FLOWS_PER_DOCUMENT` |
 | Tildes dañadas en la consola de Windows | Ya se fuerza UTF-8 (`logging.charset.console`); si persiste, `chcp 65001` |
 | `EBADENGINE` con Node < 20.19 | Actualiza Node (Vite 8 y jsdom 29) |
