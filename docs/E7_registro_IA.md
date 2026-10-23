@@ -102,3 +102,19 @@ Los commits con código asistido llevan el trailer `AI-Assisted:` para vincularl
 | Tiempo estimado sin IA | 4 h |
 | Tiempo real con IA | 45 min |
 | Observaciones de calidad | Las pruebas generadas por IA también necesitan revisión: 5 de sus defectos eran de las pruebas mismas. Se exigió que cada prueba falle por la razón correcta. Por ejemplo, el filtro de CA-02 en e2e daba un falso positivo con los módulos de Vite (IA-04). |
+
+## IA-06: Pseudocódigo y fragmento representativo (E4)
+
+| Campo | Registro |
+|-------|----------|
+| Iniciativa / HU | HU-CONTACT-001 |
+| Herramienta | Claude Code |
+| Prompt relevante | "Escribe el pseudocódigo del orquestador y elige un fragmento real que concentre las reglas críticas de la HU; explica cada decisión, qué parte asistió la IA y cómo se validó." |
+| Resultado relevante | Pseudocódigo de 4 funciones; fragmento real de `updateEmail` + `notifyChange` con 10 decisiones explicadas; extractos de `ResilientCaller` y del `run()` del frontend; prueba de idempotencia; tabla de asistencia y validación; límites conocidos. |
+| Ajustes del usuario | Se exigió que el fragmento sea **código real del repositorio** (con su ruta y líneas verificadas) y no código ilustrativo, para que lo que se muestra en la sustentación sea lo que se ejecuta en las pruebas. Se agregó la revisión crítica de los límites del propio fragmento. |
+| Decisión | Aceptado. Se eligió `updateEmail` porque reúne el orden de pasos, la identidad, la idempotencia, la resiliencia y la notificación. |
+| Descartado | Usar `startFlow` como fragmento: tiene menos reglas críticas. Usar pseudocódigo solo: la prueba pide "fragmento representativo" y el código real es verificable. |
+| Tokens / créditos | No medidos de forma individual. |
+| Tiempo estimado sin IA | 45 min |
+| Tiempo real con IA | 15 min |
+| Observaciones de calidad | Se verificó que los rangos de líneas citados correspondan al archivo y que cada decisión ①–⑩ tenga una prueba en E5. |
