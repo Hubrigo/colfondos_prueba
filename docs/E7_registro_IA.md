@@ -1,6 +1,6 @@
 # E7. Registro de uso de IA
 
-Formato según el doc. 15 (*Registro operativo de uso de IA*): un registro por paso de trabajo (IA-00 a IA-09). Los commits con código asistido llevan el trailer `AI-Assisted:` (13 commits) para vincularlos a este registro.
+Formato según el doc. 15 (*Registro operativo de uso de IA*): un registro por paso de trabajo (IA-00 a IA-10). Los commits con código asistido llevan el trailer `AI-Assisted:` (13 commits) para vincularlos a este registro.
 
 ## 1. Herramientas
 
@@ -37,11 +37,12 @@ El doc. 15 pide "ajustes realizados por el usuario". Para que la atribución sea
 | IA-07 | E6, debug de Safari 17 | ≈ 14 min | 3 h | 3 (premisa, herramienta y evidencia) |
 | IA-08 | E3 + CI | ≈ 8 min (+ CI) | 3 h | 1 (permiso `.env.*`) |
 | IA-09 | E7, consolidación | ≈ 10 min | 45 min | 1 (tiempos inflados) |
-| **Total** | | **≈ 2 h** (121 min) | **≈ 22 h** (1 305 min) | **23** |
+| IA-10 | Entrega: Word, release y zip | ≈ 50 min (≈ 25 de espera del CI) | 2 h | 4 |
+| **Total** | | **≈ 2 h 50 min** (171 min) | **≈ 24 h** (1 425 min) | **27** |
 
-> La reducción de tiempo es real, pero **no** viene de que la IA acierte al primer intento. El código compiló casi siempre, y aun así aparecieron **23 defectos que solo se vieron al ejecutar**. Sin el ciclo de validación, varios habrían llegado a QA, como pasó con el de Safari 17 en E6.
+> La reducción de tiempo es real, pero **no** viene de que la IA acierte al primer intento. El código compiló casi siempre, y aun así aparecieron **27 defectos que solo se vieron al ejecutar**. Sin el ciclo de validación, varios habrían llegado a QA, como pasó con el de Safari 17 en E6.
 
-**Tokens / créditos:** no se midieron por paso. La sesión de Claude Code reporta el consumo total con `/cost`, y ese valor se adjunta en la entrega.
+**Tokens / créditos:** no se midieron por paso. Al cierre, `/cost` en Claude Code (plan de suscripción) no reporta tokens, sino el uso del límite del plan: **80 % del límite de la sesión** y **12 % del límite semanal**. Se registra tal cual, sin estimar tokens.
 
 ---
 
@@ -190,9 +191,25 @@ El doc. 15 pide "ajustes realizados por el usuario". Para que la atribución sea
 
 ---
 
+### IA-10: Entrega final (Word de respuestas, release y zip)
+
+| Campo | Registro |
+|-------|----------|
+| Herramienta | Claude Code + Microsoft Word (COM) + GitHub CLI |
+| Prompt relevante | "Genera el archivo de respuestas como copia nueva del Word de la prueba y haz el release a main con tag." |
+| Resultado relevante | `Respuestas_Candidato_DEV.docx` (21 páginas, plantillas 8 y 9 y sección 10 diligenciadas, sección 11 con E1–E7); release `v0.1.0` con Git Flow (PRs #10 a #12, tag y GitHub Release con el jar); zip con el repositorio y su `.git`. |
+| Decisión del candidato | Copia nueva del Word (el original intacto); release a `main` con tag. |
+| Detectado al validar | (1) Word no abría el archivo: el orden de `shd` y `spacing` en `w:pPr` violaba el esquema; se detectó probando primero que el original sí abría. (2) Al renderizar el PDF: líneas de código partidas y un encabezado de tabla huérfano; se agregó una verificación de ancho que falla el build. (3) El zip de PowerShell 5.1 usaba `\` en las rutas (inválido en macOS/Linux); se rehízo y se probó extrayéndolo con `unzip`. (4) Cambiar a 0.1.0 rompía el nombre del jar en e2e; se fijó `finalName` antes del release. Además, el runner de CI se colgó 20 min instalando navegadores: se canceló, se reintentó y se agregó `timeout-minutes: 5`. |
+| Decisión | Aceptado. |
+| Descartado | Rehacer el Word desde cero con otra plantilla (se pidió una copia del original); reescribir el historial para el release. |
+| Tiempo real / estimado sin IA | ≈ 50 min, de los cuales ≈ 25 fueron espera del CI / 2 h |
+| Observaciones de calidad | Cada artefacto se validó con la herramienta del destinatario: Word para el .docx y `unzip` para el zip. |
+
+---
+
 ## 5. Lecciones
 
-1. **Generar no es validar.** 23 defectos aparecieron solo al ejecutar: compilación, humo, navegadores, CI. El valor de la IA estuvo en acelerar el ciclo, no en saltárselo.
+1. **Generar no es validar.** 27 defectos aparecieron solo al ejecutar: compilación, humo, navegadores, CI. El valor de la IA estuvo en acelerar el ciclo, no en saltárselo.
 2. **Verificar las premisas de la IA.** El repositorio "existente", las versiones de las Actions, el soporte de WebKit y los tiempos del propio registro: todo se contrastó con el entorno real.
 3. **Las herramientas de seguridad también se prueban.** Un guardarraíl que no falla con el defecto (`eslint-plugin-compat`) da falsa confianza.
 4. **Las restricciones no se esquivan.** Ante la regla de permisos, la decisión fue de la persona, no de la IA.
