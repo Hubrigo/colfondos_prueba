@@ -1,0 +1,40 @@
+# E7. Registro de uso de IA
+
+Formato según el doc. 15 (*Registro operativo de uso de IA*). Se diligencia un registro por paso de trabajo.
+Los commits con código asistido llevan el trailer `AI-Assisted:` para vincularlos a este registro.
+
+**Herramientas:** Claude Code (modelo Claude Opus 5.5) como asistente de desarrollo; ruflo v3.59.17 como memoria del proyecto (namespace `colfondos`, donde se guardan los hallazgos del Mini-RAG para recuperarlos por búsqueda semántica).
+
+---
+
+## IA-00: Preparación del entorno y del repositorio
+
+| Campo | Registro |
+|-------|----------|
+| Iniciativa / HU | INI-2026-001 / HU-CONTACT-001 |
+| Herramienta | Claude Code + ruflo |
+| Prompt relevante | "Prepara el entorno y crea el monorepo con backend/, frontend/ y docs/; importa la parte de git: ramas, commits y PR. Valida que ruflo esté instalado." |
+| Resultado relevante | Verificación de Java 17, Maven 3.9 y Node 24; instalación de ruflo y de GitHub CLI; monorepo con CONTRIBUTING, plantilla de PR con checklist de incidentes y protección de ramas. |
+| Ajustes del usuario | Se detectó que un repositorio descrito en una sesión anterior **no existía** en esta máquina y se rehízo. Ruflo se inicializó **fuera** del repositorio para no mezclar su configuración con el código entregable. |
+| Decisión | Aceptado. Git Flow simplificado, PR obligatorio en `main` y `develop`, y solo merge commit. |
+| Descartado | Instalar ruflo con `curl \| bash` (script remoto sin revisar); se prefirió `npm install -g`. Commit de la configuración de ruflo dentro del repositorio. |
+| Tokens / créditos | No medidos de forma individual (sesión única de Claude Code). |
+| Tiempo estimado sin IA | 45 min |
+| Tiempo real con IA | 15 min (más la autenticación interactiva del usuario) |
+| Observaciones de calidad | El push inicial falló por falta de credenciales; se resolvió con `gh auth login` interactivo, sin exponer tokens en el chat. |
+
+## IA-01: Análisis de la HU (E1)
+
+| Campo | Registro |
+|-------|----------|
+| Iniciativa / HU | HU-CONTACT-001 |
+| Herramienta | Claude Code + ruflo memory (`memory search -q "safari"` para recuperar incidentes) |
+| Prompt relevante | "Analiza la HU con los 15 documentos: separa hechos (con cita) de supuestos y recomendaciones; define validaciones de frontend y backend; preguntas para el PO y el LT; criterios en Gherkin." |
+| Resultado relevante | Tabla de 15 hechos con su fuente, 7 inconsistencias, 9 supuestos, 14 preguntas y 16 criterios Gherkin. |
+| Ajustes del usuario | Se agregó la **tensión central**: enviar el OTP al correo que se quiere cambiar bloquea el flujo. Por eso la validación va por SMS al celular (S-01). También se agregó la discrepancia de alcance correo/celular (H-15) y la de 3 h frente a 4–5 h. |
+| Decisión | Aceptado con ajustes. Los valores del OTP (5 min, 3 intentos) se marcan como **supuestos**, no como hechos, porque el Mini-RAG no los define. |
+| Descartado | Proponer validación facial como camino principal: no hay proveedor ni contrato (H-02, H-03). |
+| Tokens / créditos | No medidos de forma individual. |
+| Tiempo estimado sin IA | 60 min |
+| Tiempo real con IA | 20 min |
+| Observaciones de calidad | Cada hecho se verificó contra el documento citado. Las inferencias que la IA presentaba como hechos se reclasificaron como supuestos. |
