@@ -1,152 +1,199 @@
 # E7. Registro de uso de IA
 
-Formato según el doc. 15 (*Registro operativo de uso de IA*). Se diligencia un registro por paso de trabajo.
-Los commits con código asistido llevan el trailer `AI-Assisted:` para vincularlos a este registro.
+Formato según el doc. 15 (*Registro operativo de uso de IA*): un registro por paso de trabajo (IA-00 a IA-09). Los commits con código asistido llevan el trailer `AI-Assisted:` (13 commits) para vincularlos a este registro.
 
-**Herramientas:** Claude Code (modelo Claude Opus 5.5) como asistente de desarrollo; ruflo v3.59.17 como memoria del proyecto (namespace `colfondos`, donde se guardan los hallazgos del Mini-RAG para recuperarlos por búsqueda semántica).
+## 1. Herramientas
+
+| Herramienta | Uso |
+|-------------|-----|
+| **Claude Code** (modelo Claude Opus 5.5) | Asistente de desarrollo: análisis del Mini-RAG, redacción de documentos, generación de código y pruebas, y **ejecución** de build, pruebas, Playwright, git y GitHub CLI |
+| **ruflo** v3.59.17 | Memoria del proyecto (namespace `colfondos`): hallazgos del Mini-RAG y decisiones por paso, recuperados por búsqueda semántica (p. ej. `memory search -q "safari"`) |
+| GitHub CLI + Actions | PRs, protección de ramas y pipeline CI |
+
+## 2. Cómo leer este registro (atribución)
+
+El doc. 15 pide "ajustes realizados por el usuario". Para que la atribución sea honesta, cada registro separa:
+
+- **Decisión del candidato:** lo que yo definí, pedí, aprobé o rechacé.
+- **Detectado al validar:** correcciones que surgieron al **ejecutar** compilación, pruebas, navegadores o CI. La IA las encontró y las propuso, y yo las revisé y acepté. No las presento como hallazgos míos, sino como resultado del ciclo *generar → ejecutar → verificar*, que fue la forma de trabajo que exigí desde el inicio.
+
+**Tiempos:**
+- *Tiempo real con IA*: medido con los timestamps de los commits de cada paso; incluye la espera de mis aprobaciones entre pasos.
+- *Tiempo estimado sin IA*: estimación propia para el mismo alcance.
 
 ---
 
-## IA-00: Preparación del entorno y del repositorio
+## 3. Resumen
+
+| ID | Paso | Tiempo real (git) | Estimado sin IA | Defectos detectados al validar |
+|----|------|------------------:|----------------:|-------------------------------:|
+| IA-00 | Entorno y repositorio | ≈ 15 min | 45 min | 1 (credenciales) |
+| IA-01 | E1, análisis de la HU | ≈ 10 min | 60 min | — |
+| IA-02 | E2, diseño técnico | ≈ 6 min | 90 min | — |
+| IA-03 | Backend | ≈ 23 min | 4 h | 5 |
+| IA-04 | Frontend + e2e | ≈ 16 min | 3 h | 7 |
+| IA-05 | E5, pruebas | ≈ 14 min | 4 h | 5 (en las pruebas) |
+| IA-06 | E4, pseudocódigo | ≈ 5 min | 45 min | — |
+| IA-07 | E6, debug de Safari 17 | ≈ 14 min | 3 h | 3 (premisa, herramienta y evidencia) |
+| IA-08 | E3 + CI | ≈ 8 min (+ CI) | 3 h | 1 (permiso `.env.*`) |
+| IA-09 | E7, consolidación | ≈ 10 min | 45 min | 1 (tiempos inflados) |
+| **Total** | | **≈ 2 h** (121 min) | **≈ 22 h** (1 305 min) | **23** |
+
+> La reducción de tiempo es real, pero **no** viene de que la IA acierte al primer intento. El código compiló casi siempre, y aun así aparecieron **23 defectos que solo se vieron al ejecutar**. Sin el ciclo de validación, varios habrían llegado a QA, como pasó con el de Safari 17 en E6.
+
+**Tokens / créditos:** no se midieron por paso. La sesión de Claude Code reporta el consumo total con `/cost`, y ese valor se adjunta en la entrega.
+
+---
+
+## 4. Registros
+
+### IA-00: Preparación del entorno y del repositorio
 
 | Campo | Registro |
 |-------|----------|
 | Iniciativa / HU | INI-2026-001 / HU-CONTACT-001 |
-| Herramienta | Claude Code + ruflo |
-| Prompt relevante | "Prepara el entorno y crea el monorepo con backend/, frontend/ y docs/; importa la parte de git: ramas, commits y PR. Valida que ruflo esté instalado." |
+| Herramienta | Claude Code + ruflo + GitHub CLI |
+| Prompt relevante | "Prepara el entorno y crea el monorepo con backend/, frontend/ y docs/; es importante la parte de git: ramas, commits y PR. Valida que ruflo esté instalado; si no, instálalo y úsalo." |
 | Resultado relevante | Verificación de Java 17, Maven 3.9 y Node 24; instalación de ruflo y de GitHub CLI; monorepo con CONTRIBUTING, plantilla de PR con checklist de incidentes y protección de ramas. |
-| Ajustes del usuario | Se detectó que un repositorio descrito en una sesión anterior **no existía** en esta máquina y se rehízo. Ruflo se inicializó **fuera** del repositorio para no mezclar su configuración con el código entregable. |
-| Decisión | Aceptado. Git Flow simplificado, PR obligatorio en `main` y `develop`, y solo merge commit. |
-| Descartado | Instalar ruflo con `curl \| bash` (script remoto sin revisar); se prefirió `npm install -g`. Commit de la configuración de ruflo dentro del repositorio. |
-| Tokens / créditos | No medidos de forma individual (sesión única de Claude Code). |
-| Tiempo estimado sin IA | 45 min |
-| Tiempo real con IA | 15 min (más la autenticación interactiva del usuario) |
-| Observaciones de calidad | El push inicial falló por falta de credenciales; se resolvió con `gh auth login` interactivo, sin exponer tokens en el chat. |
+| Decisión del candidato | Stack (Java 17, Spring Boot 3, React + Vite) y entrega en .docx + .zip. El repositorio como evidencia de E3 (ramas por paso, commits convencionales, PR). Repositorio en GitHub, **público**. Protección de `main` y `develop`. **Commits sin `Co-Authored-By`** (desde el paso 2; los 4 commits iniciales se conservan para no reescribir ramas protegidas). |
+| Detectado al validar | El repositorio descrito en una sesión anterior **no existía** en esta máquina y se rehízo. El primer push falló por falta de credenciales; se resolvió con `gh auth login` interactivo, sin exponer tokens en el chat. |
+| Decisión | Aceptado. Ruflo se inicializa **fuera** del repositorio, para no mezclar su configuración con el código entregable. |
+| Descartado | Instalar ruflo con `curl \| bash` (script remoto sin revisar); se usó `npm install -g`. |
+| Tiempo real / estimado sin IA | ≈ 15 min (más la autenticación) / 45 min |
+| Observaciones de calidad | La IA no asumió el estado descrito en la conversación anterior: lo verificó en disco. |
 
-## IA-01: Análisis de la HU (E1)
-
-| Campo | Registro |
-|-------|----------|
-| Iniciativa / HU | HU-CONTACT-001 |
-| Herramienta | Claude Code + ruflo memory (`memory search -q "safari"` para recuperar incidentes) |
-| Prompt relevante | "Analiza la HU con los 15 documentos: separa hechos (con cita) de supuestos y recomendaciones; define validaciones de frontend y backend; preguntas para el PO y el LT; criterios en Gherkin." |
-| Resultado relevante | Tabla de 15 hechos con su fuente, 7 inconsistencias, 9 supuestos, 14 preguntas y 16 criterios Gherkin. |
-| Ajustes del usuario | Se agregó la **tensión central**: enviar el OTP al correo que se quiere cambiar bloquea el flujo. Por eso la validación va por SMS al celular (S-01). También se agregó la discrepancia de alcance correo/celular (H-15) y la de 3 h frente a 4–5 h. |
-| Decisión | Aceptado con ajustes. Los valores del OTP (5 min, 3 intentos) se marcan como **supuestos**, no como hechos, porque el Mini-RAG no los define. |
-| Descartado | Proponer validación facial como camino principal: no hay proveedor ni contrato (H-02, H-03). |
-| Tokens / créditos | No medidos de forma individual. |
-| Tiempo estimado sin IA | 60 min |
-| Tiempo real con IA | 20 min |
-| Observaciones de calidad | Cada hecho se verificó contra el documento citado. Las inferencias que la IA presentaba como hechos se reclasificaron como supuestos. |
-
-## IA-02: Diseño técnico (E2)
+### IA-01: Análisis de la HU (E1)
 
 | Campo | Registro |
 |-------|----------|
-| Iniciativa / HU | HU-CONTACT-001 |
-| Herramienta | Claude Code + ruflo memory (recuperación de las decisiones de E1: `decision-S01-otp`) |
-| Prompt relevante | "Con E1 como base, diseña componentes, contrato de la API del orquestador, diagrama de secuencia, catálogo de errores, resiliencia, seguridad, trazabilidad y variables de ambiente; llena la plantilla de la sección 8." |
-| Resultado relevante | 6 decisiones de arquitectura con su alternativa descartada, 4 endpoints, 2 diagramas Mermaid, catálogo de 12 errores, tabla de resiliencia por proveedor, matriz de seguridad OWASP, modelo de auditoría sin biometría y datos sintéticos por escenario. |
-| Ajustes del usuario | Se impuso que el token de verificación **no viaje al navegador** (estado en servidor, D-04). Se definió que la actualización solo se reintenta porque es idempotente (`Idempotency-Key`). Se verificó el presupuesto de tiempo de la validación (≈ 6,3 s en el peor caso frente al límite de 60 s). |
-| Decisión | Aceptado con ajustes. El diseño es el contrato de los pasos 3 y 4. |
-| Descartado | (1) JWT de verificación en el navegador. (2) Reintentar `OTP_INVALID` o errores 4xx. (3) Revertir la actualización si falla Messaging. (4) Wiremock o contenedores para simular: es más pesado de lo que permite el tiempo de la prueba. |
-| Tokens / créditos | No medidos de forma individual. |
-| Tiempo estimado sin IA | 90 min |
-| Tiempo real con IA | 25 min |
-| Observaciones de calidad | Se verificó que cada criterio de E1 (CA-01 a CA-16) tenga respaldo en el diseño: errores, datos sintéticos o controles. |
+| Herramienta | Claude Code + ruflo memory |
+| Prompt relevante | "Analiza la HU con los 15 documentos: separa hechos (con cita) de supuestos y recomendaciones; define validaciones de frontend y backend, preguntas para el PO y el LT, y criterios en Gherkin." |
+| Resultado relevante | 15 hechos con su fuente, 7 inconsistencias, 9 supuestos, 14 preguntas y 16 criterios Gherkin. |
+| Decisión del candidato | Mi análisis previo del Mini-RAG ya identificaba los hallazgos base: PortalX 7.0 frente a 7.4, OnPrem frente a Cloud, identidad sin flujo descrito, proveedor facial indefinido, Messaging sin reintentos ni SLA, INC-001 a INC-004, las restricciones de tiempo y biometría, y la diferencia de 3 h frente a 4–5 h. Aprobé el análisis resultante. |
+| Detectado al validar | La IA propuso la **tensión central**: enviar el OTP al correo que se quiere cambiar bloquea el flujo, de ahí S-01 (SMS al celular). También detectó la discrepancia de alcance entre correo y celular (H-15). Al revisar se reclasificaron como **supuestos** valores que la IA había presentado como hechos (OTP de 5 min y 3 intentos). |
+| Decisión | Aceptado con ajustes. |
+| Descartado | Validación facial como camino principal: no hay proveedor ni contrato (H-02, H-03). |
+| Tiempo real / estimado sin IA | ≈ 10 min / 60 min |
+| Observaciones de calidad | Cada hecho se verificó contra el documento citado. |
 
-## IA-03: Backend Spring Boot (paso 3, soporte de E2 y E4)
+### IA-02: Diseño técnico (E2)
 
 | Campo | Registro |
 |-------|----------|
-| Iniciativa / HU | HU-CONTACT-001 |
-| Herramienta | Claude Code (generación de código y ejecución de build y pruebas de humo) |
-| Prompt relevante | "Implementa el contrato de E2 en Spring Boot 3 / Java 17: endpoints, clientes simulados de las 3 APIs, correlationId, manejador global de errores, timeouts, reintentos y circuit breaker por proveedor, y auditoría sin biometría." |
-| Resultado relevante | 30 clases en 8 paquetes. Compila y levanta el contexto. La prueba de humo `scripts/smoke-backend.mjs` pasa 22/22 escenarios (CA-01 a CA-16 más idempotencia). Evidencias en `docs/evidencias/`. |
-| Ajustes del usuario | La primera prueba de humo **falló en 9 de 22** y reveló 5 defectos, todos corregidos: (1) `spring.mvc.problemdetails.enabled` registraba el manejador de Spring, que le ganaba al nuestro y quitaba `code` y `correlationId`, contra el diseño de un único manejador; (2) un único límite de 5 flujos por IP es irreal con NAT u oficinas, así que se separó en 5 por documento y 30 por IP; (3) el `transactionId` incluía el offset horario; (4) sin variables, el arranque fallaba con "bean no encontrado" en lugar de nombrar la variable (INC-004), y se corrigió con el orden del constructor; (5) las tildes salían dañadas en los logs (cp1252 en Windows), y se fijó `logging.charset.console=UTF-8`. |
-| Decisión | Aceptado con correcciones. Resilience4j se aplica de forma **programática** por proveedor (`ResilientCaller`) en lugar de con anotaciones, para controlar qué se reintenta y propagar el MDC al hilo del proveedor. |
-| Descartado | (1) Anotaciones `@Retry` y `@TimeLimiter`: requieren AOP y no permiten propagar el correlationId al hilo del time limiter. (2) Spring Security completo: está fuera del alcance de la prueba; los controles quedan documentados en E2 §6. (3) Imprimir el OTP simulado en el log para facilitar la demo: viola la regla de nunca registrar el código, así que se usa `SIM_FIXED_OTP`. |
-| Tokens / créditos | No medidos de forma individual. |
-| Tiempo estimado sin IA | 4 h |
-| Tiempo real con IA | 50 min |
-| Observaciones de calidad | La IA generó código que compiló al primer intento, pero **5 defectos solo aparecieron al ejecutar** los escenarios. La prueba de humo contra el servicio levantado fue la validación decisiva. Se verificó por `grep` que los logs no contienen el OTP ni correos en claro. |
+| Herramienta | Claude Code + ruflo memory (`decision-S01-otp`) |
+| Prompt relevante | "Con E1 como base, diseña componentes, contrato de la API, diagrama de secuencia, catálogo de errores, resiliencia, seguridad, trazabilidad y variables; llena la plantilla de la sección 8." |
+| Resultado relevante | 6 decisiones de arquitectura con su alternativa descartada, 4 endpoints, 2 diagramas Mermaid, 12 errores, resiliencia por proveedor, OWASP, auditoría sin biometría y datos sintéticos. |
+| Decisión del candidato | Aprobé el diseño como contrato de los pasos 3 y 4. |
+| Detectado al validar | Las decisiones de diseño las propuso la IA: el token de verificación queda en el servidor (D-04), la actualización solo se reintenta porque es idempotente y el presupuesto de la validación es ≈ 6,3 s frente a 60 s. Se verificó que cada criterio CA-01 a CA-16 tenga respaldo en el diseño. |
+| Decisión | Aceptado. |
+| Descartado | JWT en el navegador; reintentar 4xx u `OTP_INVALID`; revertir la actualización si falla Messaging; Wiremock o contenedores (demasiado para el tiempo de la prueba). |
+| Tiempo real / estimado sin IA | ≈ 6 min / 90 min |
+| Observaciones de calidad | Una regla de este diseño (Messaging **sin** circuit breaker) no se respetó en el código, y lo descubrieron las pruebas e2e en IA-04. Un diseño escrito no garantiza la implementación. |
 
-## IA-04: Frontend React (paso 4, soporte de E2 y E4)
+### IA-03: Backend Spring Boot (soporte de E2 y E4)
 
 | Campo | Registro |
 |-------|----------|
-| Iniciativa / HU | HU-CONTACT-001 |
-| Herramienta | Claude Code (código y ejecución de Playwright en Chromium, Edge y WebKit) |
-| Prompt relevante | "Implementa el asistente de E2 en React + Vite: identificación, OTP con contador y reenvío, nuevo correo, confirmación y resultado; validaciones en línea, mensaje por cada `code` de error, idempotencia y manejo de todas las promesas (INC-001)." |
-| Resultado relevante | Máquina de estados pura (`reducer.js`), 8 componentes de paso, cliente HTTP con correlationId, timeout e idempotencia, reglas de validación compartidas con el backend y ErrorBoundary. Suite e2e de Playwright: **15/15** en Chromium, Edge y WebKit, con capturas. |
-| Ajustes del usuario | (1) Se detectó en revisión un **bucle de renders** potencial: el contador despachaba `OTP_EXPIRED_LOCALLY` en cada render; se resolvió con `useCallback` y un reducer idempotente. (2) `crypto.randomUUID` no existe en contextos HTTP no seguros (QA): se agregó alternativa con `getRandomValues`. (3) jsdom 30 exige Node ≥ 24.15 y el entorno tenía 24.14, así que se fijó jsdom 29. (4) La primera corrida e2e **falló 7/15** y destapó: un falso positivo de la propia prueba (Vite sirve `/src/api/…`), estado compartido entre navegadores, un 404 de `favicon.ico` en consola de Edge y un **desvío del diseño en el backend**: Messaging tenía circuit breaker, contra E2 §5.3, y los fallos de un afiliado abrían el circuito para todos. Todos se corrigieron. |
-| Decisión | Aceptado con correcciones. Se mantiene la regla de que toda llamada pasa por `run()` con `try/catch`, más `ErrorBoundary` y un listener de `unhandledrejection` como última defensa. |
-| Descartado | (1) Librería de formularios o de estado (Formik, Redux): son innecesarias para 5 pasos y aumentan la superficie de compatibilidad. (2) Bloquear el pegado en "confirmar correo": E1 lo desaconseja, pero no lo bloquea, por accesibilidad. (3) Mostrar el `detail` del backend para todos los errores: solo se usa en `OTP_INVALID` y `OTP_RESEND_TOO_SOON`; el resto usa textos propios. |
-| Tokens / créditos | No medidos de forma individual. |
-| Tiempo estimado sin IA | 3 h |
-| Tiempo real con IA | 45 min |
-| Observaciones de calidad | Las pruebas e2e en navegadores reales encontraron un defecto del **backend** que la prueba de humo con `fetch` no podía ver, porque solo aparece al encadenar escenarios. Probar en WebKit desde el inicio deja lista la base para E6. |
+| Herramienta | Claude Code (código, build y prueba de humo contra el servicio levantado) |
+| Prompt relevante | "Implementa el contrato de E2 en Spring Boot 3 / Java 17: endpoints, 3 APIs simuladas, correlationId, manejador global de errores, timeouts, reintentos, circuit breaker y auditoría sin biometría." |
+| Resultado relevante | 30 clases en 8 paquetes; humo 22/22; cada commit compila por separado. |
+| Decisión del candidato | Aprobé el paso y los commits por capa. |
+| Detectado al validar | La primera prueba de humo **falló en 9 de 22** y mostró 5 defectos: (1) `spring.mvc.problemdetails` anulaba el manejador propio (sin `code` ni `correlationId`); (2) un límite único de 5 flujos por IP es irreal con NAT, así que se separó en 5 por documento y 30 por IP; (3) el `transactionId` incluía el offset horario; (4) sin variables, el error hablaba de un bean faltante en vez de la variable (INC-004); (5) las tildes salían dañadas en los logs (cp1252). |
+| Decisión | Aceptado con correcciones. Resilience4j programático (`ResilientCaller`). |
+| Descartado | Anotaciones `@Retry` y `@TimeLimiter` (no propagan el MDC); Spring Security completo (fuera del alcance); imprimir el OTP simulado en el log. |
+| Tiempo real / estimado sin IA | ≈ 23 min / 4 h |
+| Observaciones de calidad | El código compiló al primer intento: los 5 defectos solo aparecieron al ejecutar. Con `grep` se verificó que los logs no contienen el OTP ni correos en claro. |
 
-## IA-05: Pruebas (E5)
+### IA-04: Frontend React + e2e (soporte de E2 y E4)
 
 | Campo | Registro |
 |-------|----------|
-| Iniciativa / HU | HU-CONTACT-001 |
-| Herramienta | Claude Code (generación y ejecución de JUnit, Mockito, MockMvc, Vitest y Playwright) |
-| Prompt relevante | "Construye pruebas unitarias (JUnit + Mockito), de integración (MockMvc) y de frontend (Vitest) que cubran CA-01 a CA-16 y los incidentes; arma la matriz de pruebas con negativas, regresión, Safari y proveedor caído." |
-| Resultado relevante | Backend **55/55** (94,8 % líneas); frontend **67/67** (92,9 % líneas); e2e **15/15** en 3 navegadores. Matriz con 56 casos en 7 categorías, cruzados con CA e INC. |
-| Ajustes del usuario | Errores en las **pruebas generadas** detectados al compilar o ejecutar: (1) helpers `post/put/verify` que ocultaban los `import static` de MockMvc (no compilaban); (2) la clase `…IT` no la ejecuta Surefire, así que se renombró a `…IntegrationTest`; (3) un cálculo errado del momento en que se abre el circuito (el 10.º fallo ocurre dentro de la 4.ª llamada); (4) el `flujoCompleto` de MockMvc no reenviaba el `correlationId` como sí hace el frontend; (5) sin `globals: true`, Testing Library no limpia el DOM entre pruebas (9 fallas falsas). Ningún hallazgo resultó ser un defecto del producto. |
-| Decisión | Aceptado con correcciones. En la prueba del servicio, el `ResilientCaller` se mockea para aislar las reglas; su política real se prueba aparte, con timeouts de 200 ms. |
-| Descartado | (1) Testcontainers o Wiremock: no hay contratos reales contra los cuales probar (L-03). (2) Tiempos de espera reales con `sleep` para probar la vigencia del OTP: se usa un `MutableClock`. (3) Declarar que WebKit de Playwright equivale a Safari 17: se documenta la limitación y la prueba manual C-06. |
-| Tokens / créditos | No medidos de forma individual. |
-| Tiempo estimado sin IA | 4 h |
-| Tiempo real con IA | 45 min |
-| Observaciones de calidad | Las pruebas generadas por IA también necesitan revisión: 5 de sus defectos eran de las pruebas mismas. Se exigió que cada prueba falle por la razón correcta. Por ejemplo, el filtro de CA-02 en e2e daba un falso positivo con los módulos de Vite (IA-04). |
+| Herramienta | Claude Code + Playwright (Chromium, Edge y WebKit) |
+| Prompt relevante | "Implementa el asistente de E2 en React + Vite con validaciones, contador del OTP, mensajes por `code`, idempotencia y manejo de todas las promesas (INC-001)." |
+| Resultado relevante | Máquina de estados, 8 componentes, cliente HTTP con correlationId, timeout e idempotencia, y e2e 15/15 en 3 navegadores. |
+| Decisión del candidato | Aprobé el paso. |
+| Detectado al validar | En revisión: un **bucle de renders** potencial en el contador y la ausencia de `crypto.randomUUID` en contextos HTTP. En la instalación: jsdom 30 exige Node ≥ 24.15, así que se fijó jsdom 29. La primera corrida e2e **falló 7/15**: un falso positivo de la propia prueba, estado compartido entre navegadores, un 404 de `favicon.ico` en la consola de Edge y un **desvío del diseño en el backend** (Messaging con circuit breaker). |
+| Decisión | Aceptado con correcciones. |
+| Descartado | Formik o Redux; bloquear el pegado en la confirmación; mostrar el `detail` del backend en todos los errores. |
+| Tiempo real / estimado sin IA | ≈ 16 min / 3 h |
+| Observaciones de calidad | El e2e en navegadores reales encontró un defecto del backend que la prueba de humo no podía ver. |
 
-## IA-06: Pseudocódigo y fragmento representativo (E4)
+### IA-05: Pruebas (E5)
 
 | Campo | Registro |
 |-------|----------|
-| Iniciativa / HU | HU-CONTACT-001 |
+| Herramienta | Claude Code (JUnit, Mockito, MockMvc, Vitest y JaCoCo) |
+| Prompt relevante | "Construye pruebas unitarias (JUnit + Mockito), de integración (MockMvc) y de frontend (Vitest) que cubran CA-01 a CA-16 y los incidentes; arma la matriz con negativas, regresión, Safari y proveedor caído." |
+| Resultado relevante | Backend 55/55 (94,8 % de líneas), frontend 67/67 (92,9 %), matriz de 56 casos (57 después de E6). |
+| Decisión del candidato | Pedí hacer los pasos 5 y 6 juntos; se hicieron en ramas y PRs separados. |
+| Detectado al validar | 5 defectos **en las pruebas generadas**: helpers que ocultaban los `import static` de MockMvc; una clase `*IT` que Surefire no ejecuta; un cálculo errado de la apertura del circuito; el correlationId no se reenviaba en MockMvc; falta de `cleanup` de Testing Library sin `globals`. Ninguno era un defecto del producto. |
+| Decisión | Aceptado con correcciones. |
+| Descartado | Testcontainers o Wiremock (sin contratos reales); `sleep` para probar vigencias (se usa `MutableClock`); afirmar que WebKit equivale a Safari 17. |
+| Tiempo real / estimado sin IA | ≈ 14 min / 4 h |
+| Observaciones de calidad | También las pruebas generadas por IA necesitan revisión; se exigió que cada prueba falle por la razón correcta. |
+
+### IA-06: Pseudocódigo y fragmento representativo (E4)
+
+| Campo | Registro |
+|-------|----------|
 | Herramienta | Claude Code |
-| Prompt relevante | "Escribe el pseudocódigo del orquestador y elige un fragmento real que concentre las reglas críticas de la HU; explica cada decisión, qué parte asistió la IA y cómo se validó." |
-| Resultado relevante | Pseudocódigo de 4 funciones; fragmento real de `updateEmail` + `notifyChange` con 10 decisiones explicadas; extractos de `ResilientCaller` y del `run()` del frontend; prueba de idempotencia; tabla de asistencia y validación; límites conocidos. |
-| Ajustes del usuario | Se exigió que el fragmento sea **código real del repositorio** (con su ruta y líneas verificadas) y no código ilustrativo, para que lo que se muestra en la sustentación sea lo que se ejecuta en las pruebas. Se agregó la revisión crítica de los límites del propio fragmento. |
-| Decisión | Aceptado. Se eligió `updateEmail` porque reúne el orden de pasos, la identidad, la idempotencia, la resiliencia y la notificación. |
-| Descartado | Usar `startFlow` como fragmento: tiene menos reglas críticas. Usar pseudocódigo solo: la prueba pide "fragmento representativo" y el código real es verificable. |
-| Tokens / créditos | No medidos de forma individual. |
-| Tiempo estimado sin IA | 45 min |
-| Tiempo real con IA | 15 min |
-| Observaciones de calidad | Se verificó que los rangos de líneas citados correspondan al archivo y que cada decisión ①–⑩ tenga una prueba en E5. |
+| Prompt relevante | "Escribe el pseudocódigo del orquestador y elige un fragmento real que concentre las reglas críticas; explica qué asistió la IA y cómo se validó." |
+| Resultado relevante | Pseudocódigo de 4 funciones; `updateEmail` + `notifyChange` con 10 decisiones; tabla de asistencia y validación; límites conocidos. |
+| Decisión del candidato | Aprobé la elección de `updateEmail` como fragmento. |
+| Detectado al validar | Se verificó que las líneas citadas (221–281) correspondan al archivo y que cada decisión ①–⑩ tenga una prueba en E5. |
+| Decisión | Aceptado: el fragmento es código real, no ilustrativo. |
+| Descartado | `startFlow` (menos reglas críticas); solo pseudocódigo. |
+| Tiempo real / estimado sin IA | ≈ 5 min / 45 min |
+| Observaciones de calidad | Se declaran los límites del propio fragmento (multi-instancia, bloqueo, outbox). |
 
-## IA-07: Debug de Safari 17 (E6)
+### IA-07: Debug de Safari 17 (E6)
 
 | Campo | Registro |
 |-------|----------|
-| Iniciativa / HU | HU-CONTACT-001 / defecto reportado por QA (sección 10) |
 | Herramienta | Claude Code + Playwright (WebKit) + Vitest + ESLint |
-| Prompt relevante | "Reproduce a propósito el defecto de QA (Safari 17, HTTP 200, *Promise rejected*), plantea hipótesis, aíslalo, corrígelo y deja pruebas y evidencia para el LT. No finjas la reproducción." |
-| Resultado relevante | Reproducción en un proyecto `safari17` (WebKit + línea base de JS de Safari 17.0), bisección que aísla `Promise.withResolvers`, fix en dos partes (API compatible + paso por `run()`), 3 niveles de regresión y documento E6 con evidencia antes y después. |
-| Ajustes del usuario | (1) **Se verificó empíricamente** antes de elegir el defecto: Playwright trae WebKit 27.2, que soporta `Promise.withResolvers` y el formato de fecha legado, así que reintroducir un defecto de compatibilidad y "probar en WebKit" **no lo habría reproducido**. Se diseñó la emulación de la línea base de Safari 17.0. (2) El commit de reproducción se marcó explícitamente como tal (`chore(e6)`), para que el historial no lo presente como una funcionalidad. (3) **`eslint-plugin-compat` no detectó el defecto** (no revisa built-ins de ECMAScript); se agregó `eslint-plugin-es-x` y se verificó que el lint **falle** con la versión defectuosa. (4) La corrida tras el fix sobrescribió la captura del defecto; se regeneraron las dos (antes y después) restaurando temporalmente el código defectuoso y verificando con hash que el fix quedara intacto. |
-| Decisión | Corregir el **patrón** (todo pasa por `run()`), no solo la API: un polyfill habría resuelto `Promise.withResolvers`, pero no el rechazo sin manejo. |
-| Descartado | (1) Polyfill de `Promise.withResolvers`: solo resuelve la mitad del defecto. (2) Afirmar que pasar en WebKit equivale a pasar en Safari 17. (3) Confiar en un único guardarraíl de lint sin probar que detecta el caso. |
-| Tokens / créditos | No medidos de forma individual. |
-| Tiempo estimado sin IA | 3 h |
-| Tiempo real con IA | 40 min |
-| Observaciones de calidad | Las pruebas Vitest existentes (CA-12, INC-001) **ya detectaban** la mitad del defecto: el hallazgo de proceso es correr `npm run verify` en CI. La verificación en Safari 17.0–17.3 real sigue pendiente (C-06). |
+| Prompt relevante | "Reproduce a propósito el defecto de QA (Safari 17, HTTP 200, *Promise rejected*), plantea hipótesis, aíslalo, corrígelo y deja pruebas y evidencia para el LT." |
+| Resultado relevante | Proyecto `safari17` (línea base de Safari 17.0), bisección que aísla `Promise.withResolvers`, fix en dos partes, 3 niveles de regresión y evidencia antes y después. |
+| Decisión del candidato | Mi plan pedía **reproducir el bug a propósito**. Aprobé el enfoque de emulación, y que el commit de reproducción quedara marcado como tal. Pedí registrar las revisiones de los PRs. |
+| Detectado al validar | (1) **Antes de elegir el defecto** se comprobó empíricamente que Playwright trae WebKit 27.2, que sí soporta `Promise.withResolvers`: sin emular la línea base, la reproducción habría sido falsa. (2) **`eslint-plugin-compat` no detectaba el defecto** (no revisa built-ins de ECMAScript); se agregó `es-x` y se probó que el lint **falle** con la versión defectuosa. (3) Una corrida posterior sobrescribió la captura del defecto; se regeneró restaurando el código defectuoso y verificando con hash que el fix quedara intacto. |
+| Decisión | Corregir el **patrón** (todo pasa por `run()`), no solo la API. |
+| Descartado | Polyfill (resolvía solo la mitad); "pasa en WebKit = pasa en Safari 17"; un guardarraíl sin probar que detecta el caso. |
+| Tiempo real / estimado sin IA | ≈ 14 min / 3 h |
+| Observaciones de calidad | Las pruebas Vitest existentes ya detectaban la mitad del defecto, así que el hallazgo de proceso es CI obligatorio (IA-08). La verificación en Safari 17.0–17.3 real sigue pendiente (C-06). |
 
-## IA-08: Implementación y pipeline CI (E3)
+### IA-08: Implementación y pipeline CI (E3)
 
 | Campo | Registro |
 |-------|----------|
-| Iniciativa / HU | HU-CONTACT-001 |
-| Herramienta | Claude Code + GitHub CLI (Actions y protección de ramas) |
-| Prompt relevante | "Documenta E3 (tareas técnicas, estructura, ramas, configuración local, README, variables, plantilla de PR) e incluye un pipeline de CI que corra mvn test y npm run verify en cada PR." |
-| Resultado relevante | Pipeline de 3 jobs (backend, frontend y e2e en 4 proyectos), **verde al primer intento** en Linux (45 s + 24 s + 126 s), y convertido en check obligatorio de merge en `develop` y `main`. README completo, plantilla de PR con checklist de despliegue, E3 con 23 tareas (13 hechas y 10 pendientes para producción), gitGraph del historial real y plan de despliegue del doc. 12. |
-| Ajustes del usuario | (1) Se consultaron las versiones vigentes de las Actions (`checkout@v7`, `setup-java@v6`, `setup-node@v7`, `upload/download-artifact@v7/v8`) en lugar de usar las que la IA recordaba. (2) Se validó el pipeline **ejecutándolo** (PR borrador) antes de documentarlo, y los números de E3 son los del run real. (3) Se verificó que el comando de arranque del README (`mvn spring-boot:run` con perfil `sim`) funcione. (4) Una regla de permisos (`deny Read(./.env.*)`, creada por `ruflo init`) bloqueó escribir `backend/.env.example`; **no se esquivó**: el contenido quedó en E3 §5 y se consultó al usuario. |
-| Decisión | Aceptado. Los 3 jobs son *required status checks* en modo *strict*. |
-| Descartado | (1) Correr e2e solo en Chromium para acelerar: se perdería justo la cobertura de Safari (INC-001). (2) Escribir el `.env.example` por bash para saltar la regla de permisos. |
-| Tokens / créditos | No medidos de forma individual. |
-| Tiempo estimado sin IA | 3 h |
-| Tiempo real con IA | 35 min |
-| Observaciones de calidad | El pipeline confirmó en Linux lo que solo se había probado en Windows. |
+| Herramienta | Claude Code + GitHub CLI |
+| Prompt relevante | "Documenta E3 e incluye un pipeline de CI que corra mvn test y npm run verify en cada PR." |
+| Resultado relevante | 3 jobs verdes al primer intento en Linux (45 s, 24 s y 126 s), configurados como checks obligatorios en modo *strict*; README completo; E3 con 23 tareas y plan de despliegue. |
+| Decisión del candidato | Pedí **incluir el pipeline**. Ante el bloqueo de permisos elegí **ajustar la regla** para proteger solo los `.env` con secretos reales (opción 1). |
+| Detectado al validar | Se consultaron las versiones vigentes de las Actions en vez de usar las que la IA recordaba. El pipeline se validó **ejecutándolo** antes de documentarlo, y se verificó el comando de arranque del README. La regla `deny Read(./.env.*)`, creada por `ruflo init`, bloqueaba `backend/.env.example`: **no se esquivó**, se consultó primero. |
+| Decisión | Aceptado. |
+| Descartado | e2e solo en Chromium; escribir el `.env.example` por bash para saltar la regla. |
+| Tiempo real / estimado sin IA | ≈ 8 min (+ ≈ 4 min de CI) / 3 h |
+| Observaciones de calidad | CI confirmó en Linux lo probado en Windows. |
+
+### IA-09: Consolidación del registro (E7)
+
+| Campo | Registro |
+|-------|----------|
+| Herramienta | Claude Code + git (timestamps) |
+| Prompt relevante | "Consolida E7 con los campos del doc. 15; revisa la atribución de los ajustes." |
+| Resultado relevante | Este documento: resumen con totales, atribución separada y tiempos medidos. |
+| Decisión del candidato | Pedí revisar la atribución, para no presentar como propios los hallazgos que surgieron al ejecutar. |
+| Detectado al validar | Los "tiempos reales" de los registros previos eran **estimaciones infladas** de la IA (p. ej. 50 min para el backend frente a ≈ 23 min según git); se reemplazaron por tiempos medidos. |
+| Decisión | Aceptado. |
+| Descartado | Mantener los tiempos estimados como si fueran medidos. |
+| Tiempo real / estimado sin IA | ≈ 10 min / 45 min |
+| Observaciones de calidad | Un registro de IA también puede tener errores de la IA: los datos cuantitativos se contrastan con una fuente objetiva (git, CI). |
+
+---
+
+## 5. Lecciones
+
+1. **Generar no es validar.** 23 defectos aparecieron solo al ejecutar: compilación, humo, navegadores, CI. El valor de la IA estuvo en acelerar el ciclo, no en saltárselo.
+2. **Verificar las premisas de la IA.** El repositorio "existente", las versiones de las Actions, el soporte de WebKit y los tiempos del propio registro: todo se contrastó con el entorno real.
+3. **Las herramientas de seguridad también se prueban.** Un guardarraíl que no falla con el defecto (`eslint-plugin-compat`) da falsa confianza.
+4. **Las restricciones no se esquivan.** Ante la regla de permisos, la decisión fue de la persona, no de la IA.
+5. **El historial cuenta la historia.** Ramas por paso, commits convencionales con `AI-Assisted:`, PRs con revisión y CI obligatorio permiten auditar qué hizo la IA y qué se validó.

@@ -89,7 +89,7 @@ Trazabilidad de un flujo (solo perfil `sim`): `GET /api/v1/contact-update/flows/
 
 Se validan al arrancar: si falta una obligatoria, el servicio **no inicia** y el error nombra la variable (lección de INC-004).
 
-**Backend** (`application.yml`; plantilla `.env` en [E3 §5](docs/E3_implementacion.md#5-configuración-local))
+**Backend** (`application.yml`; plantilla en [`backend/.env.example`](backend/.env.example))
 
 | Variable | Default | Obligatoria fuera de `sim` | Descripción |
 |----------|---------|:--------------------------:|-------------|

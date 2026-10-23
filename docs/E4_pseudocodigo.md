@@ -200,13 +200,15 @@ void mismaClaveDeIdempotenciaNoActualizaDosVeces() {
 
 ## 3. Parte asistida por IA y cómo se validó
 
-| Elemento | Qué generó la IA (Claude Code) | Qué ajusté o decidí yo | Cómo lo validé |
+Atribución con el mismo criterio de E7 §2: los ajustes surgieron al ejecutar y revisar; la IA los propuso y el candidato los aprobó.
+
+| Elemento | Qué generó la IA (Claude Code) | Qué se ajustó en revisión (propuesto por la IA al validar, aprobado por el candidato) | Cómo se validó |
 |----------|--------------------------------|------------------------|----------------|
-| Pseudocódigo §1 | Primer borrador del flujo a partir de E2 | Agregué el flujo señuelo anti-enumeración, el canal **SMS** (no correo) y la regla de "no reintentar rechazos 4xx" | Revisión contra E1 (CA-01 a CA-16) y E2 §5.3 |
-| `updateEmail` + `notifyChange` | Estructura del método y llamadas a los puertos | Decidí: token solo en el servidor (D-04), idempotencia por clave **antes** de validar el estado (③ antes de ④, para que un reintento después de completar no dé un 403 falso), alerta al correo anterior y notificación que no revierte | 19 pruebas unitarias (`ContactUpdateServiceTest`), 12 de integración con MockMvc y prueba de humo 22/22 |
-| `ResilientCaller` | Uso de Resilience4j con anotaciones `@Retry` y `@TimeLimiter` | **Descarté las anotaciones**: no permiten propagar el MDC (correlationId) al hilo del time limiter ni elegir qué excepción se reintenta. Pasé a la API programática, y después hice el circuit breaker opcional por proveedor | `ResilientCallerTest` (6), incluida la apertura del circuito y el MDC en el hilo; e2e en 3 navegadores, que detectó el breaker de Messaging que sobraba |
-| `run()` del frontend | Wrapper asíncrono con `try/catch` | Agregué el registro de errores no-`ApiError` con correlationId y el mapeo a `UNEXPECTED` | `INC-001: un rechazo inesperado…` (Vitest) y e2e sin errores de consola en WebKit |
-| Prueba §2.3 | Caso de idempotencia | Exigí verificar el **número de llamadas** al proveedor, no solo la igualdad de las respuestas | Se ejecuta en `mvn test` (55/55) |
+| Pseudocódigo §1 | Primer borrador del flujo a partir de E2 | Se agregó el flujo señuelo anti-enumeración, el canal **SMS** (no correo) y la regla de "no reintentar rechazos 4xx" | Revisión contra E1 (CA-01 a CA-16) y E2 §5.3 |
+| `updateEmail` + `notifyChange` | Estructura del método y llamadas a los puertos | Token solo en el servidor (D-04), idempotencia por clave **antes** de validar el estado (③ antes de ④, para que un reintento después de completar no dé un 403 falso), alerta al correo anterior y notificación que no revierte | 19 pruebas unitarias (`ContactUpdateServiceTest`), 12 de integración con MockMvc y prueba de humo 22/22 |
+| `ResilientCaller` | Uso de Resilience4j con anotaciones `@Retry` y `@TimeLimiter` | **Se descartaron las anotaciones**: no permiten propagar el MDC (correlationId) al hilo del time limiter ni elegir qué excepción se reintenta. Se pasó a la API programática, y después el circuit breaker se hizo opcional por proveedor | `ResilientCallerTest` (6), incluida la apertura del circuito y el MDC en el hilo; e2e en 3 navegadores, que detectó el breaker de Messaging que sobraba |
+| `run()` del frontend | Wrapper asíncrono con `try/catch` | Se agregó el registro de errores no-`ApiError` con correlationId y el mapeo a `UNEXPECTED` | `INC-001: un rechazo inesperado…` (Vitest) y e2e sin errores de consola en WebKit |
+| Prueba §2.3 | Caso de idempotencia | Se verifica el **número de llamadas** al proveedor, no solo la igualdad de las respuestas | Se ejecuta en `mvn test` (55/55) |
 
 ### Revisión crítica: límites conocidos del fragmento
 
