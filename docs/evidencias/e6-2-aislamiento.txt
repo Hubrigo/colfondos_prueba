@@ -1,0 +1,41 @@
+Running 2 tests using 1 worker
+[WebServer] 10:32:20 p.m. [vite] (client) [Unhandled rejection] TypeError: Promise.withResolvers is not a function. (In 'Promise.withResolvers()', 'Promise.withResolvers' is undefined)
+[WebServer]  > minimumDelay src/utils/timing.js:4:53
+[WebServer]     2  |  // cuando el API responde muy rápido.
+[WebServer]     3  |  export function minimumDelay(startedAt, minMs = 600) {
+[WebServer]     4  |    const { promise, resolve } = Promise.withResolvers();
+[WebServer]        |                                                       ^
+[WebServer]     5  |    setTimeout(resolve, Math.max(0, minMs - (Date.now() - startedAt)));
+[WebServer]     6  |    return promise;
+[WebServer]  > src/wizard/ContactUpdateWizard.jsx:57:37
+[WebServer] 
+[WebServer] 10:32:20 p.m. [vite] (client) [console.error] [contact-update] promesa rechazada sin manejo minimumDelay@http://localhost:5173/src/utils/timing.js:4:52
+[WebServer] @http://localhost:5173/src/wizard/ContactUpdateWizard.jsx:68:35
+  x  1 [webkit] › e2e\safari17-aislamiento.spec.js:13:3 › E6 aislamiento: solo sin Promise.withResolvers (6.3s)
+  ok 2 [webkit] › e2e\safari17-aislamiento.spec.js:13:3 › E6 aislamiento: sin todas las demás APIs, con Promise.withResolvers (2.2s)
+  1) [webkit] › e2e\safari17-aislamiento.spec.js:13:3 › E6 aislamiento: solo sin Promise.withResolvers 
+    Error: expect(locator).toBeVisible() failed
+    Locator: getByRole('heading', { name: '¡Listo! Actualizamos tu correo' })
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+    Call log:
+      - Expect "toBeVisible" getByRole('heading', { name: '¡Listo! Actualizamos tu correo' }) with timeout 5000ms
+      - waiting for getByRole('heading', { name: '¡Listo! Actualizamos tu correo' })
+      28 |     await page.getByRole('button', { name: 'Confirmar' }).click();
+      29 |
+    > 30 |     await expect(page.getByRole('heading', { name: '¡Listo! Actualizamos tu correo' })).toBeVisible({ timeout: 5_000 });
+         |                                                                                         ^
+      31 |     expect(errors).toEqual([]);
+      32 |   });
+      33 | }
+        at C:\Users\WIN\Documents\proyectos\Colfondos\colfondos_prueba\frontend\e2e\safari17-aislamiento.spec.js:30:89
+    Error Context: test-results\safari17-aislamiento-E6-ai-0347c-o-sin-Promise-withResolvers-webkit\error-context.md
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\safari17-aislamiento-E6-ai-0347c-o-sin-Promise-withResolvers-webkit\trace.zip
+    Usage:
+        npx playwright show-trace test-results\safari17-aislamiento-E6-ai-0347c-o-sin-Promise-withResolvers-webkit\trace.zip
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+  1 failed
+    [webkit] › e2e\safari17-aislamiento.spec.js:13:3 › E6 aislamiento: solo sin Promise.withResolvers 
+  1 passed (13.8s)

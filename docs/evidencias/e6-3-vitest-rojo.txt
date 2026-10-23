@@ -1,0 +1,1279 @@
+ RUN  v5.0.5 C:/Users/WIN/Documents/proyectos/Colfondos/colfondos_prueba/frontend
+ ❯ src/utils/timing.test.js (3 tests | 1 failed) 14ms
+   ❯ minimumDelay (3)
+     × funciona sin Promise.withResolvers (Safari 17.0–17.3) 8ms
+ ❯ src/wizard/ContactUpdateWizard.test.jsx (13 tests | 4 failed) 18794ms
+   ❯ ContactUpdateWizard (13)
+     × CA-12: tras un timeout del cliente el reintento usa la misma Idempotency-Key 2460ms
+     × INC-001: un rechazo inesperado (no ApiError) se captura, se registra y no queda sin manejo 2493ms
+     × E6: en Safari 17.0 (sin Promise.withResolvers) confirmar llega al resultado y no deja rechazos sin manejo 3470ms
+     × E6: si la actualización falla, el error se muestra y Confirmar vuelve a habilitarse 2445ms
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 5 ⎯⎯⎯⎯⎯⎯⎯
+ FAIL  src/utils/timing.test.js > minimumDelay > funciona sin Promise.withResolvers (Safari 17.0–17.3)
+TypeError: Promise.withResolvers is not a function
+ ❯ minimumDelay src/utils/timing.js:4:40
+      2| // cuando el API responde muy rápido.
+      3| export function minimumDelay(startedAt, minMs = 600) {
+      4|   const { promise, resolve } = Promise.withResolvers();
+       |                                        ^
+      5|   setTimeout(resolve, Math.max(0, minMs - (Date.now() - startedAt)));
+      6|   return promise;
+ ❯ src/utils/timing.test.js:16:20
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/5]⎯
+ FAIL  src/wizard/ContactUpdateWizard.test.jsx > ContactUpdateWizard > CA-12: tras un timeout del cliente el reintento usa la misma Idempotency-Key
+TestingLibraryElementError: Unable to find role="alert"
+Ignored nodes: comments, script, style
+<body>
+  <div>
+    <section
+      aria-labelledby="wizard-title"
+      class="wizard"
+    >
+      <h1
+        id="wizard-title"
+      >
+        Actualiza tu correo electrónico
+      </h1>
+      <ol
+        aria-label="Progreso"
+        class="stepper"
+      >
+        <li
+          class="stepper__item stepper__item--done"
+        >
+          <span
+            aria-hidden="true"
+            class="stepper__dot"
+          >
+            1
+          </span>
+          <span
+            class="stepper__label"
+          >
+            Identificación
+          </span>
+        </li>
+        <li
+          class="stepper__item stepper__item--done"
+        >
+          <span
+            aria-hidden="true"
+            class="stepper__dot"
+          >
+            2
+          </span>
+          <span
+            class="stepper__label"
+          >
+            Validación
+          </span>
+        </li>
+        <li
+          class="stepper__item stepper__item--done"
+        >
+          <span
+            aria-hidden="true"
+            class="stepper__dot"
+          >
+            3
+          </span>
+          <span
+            class="stepper__label"
+          >
+            Nuevo correo
+          </span>
+        </li>
+        <li
+          aria-current="step"
+          class="stepper__item stepper__item--current"
+        >
+          <span
+            aria-hidden="true"
+            class="stepper__dot"
+          >
+            4
+          </span>
+          <span
+            class="stepper__label"
+          >
+            Confirmación
+          </span>
+        </li>
+        <li
+          class="stepper__item stepper__item--todo"
+        >
+          <span
+            aria-hidden="true"
+            class="stepper__dot"
+          >
+            5
+          </span>
+          <span
+            class="stepper__label"
+          >
+            Resultado
+          </span>
+        </li>
+      </ol>
+      <div
+        class="step"
+      >
+        <h2>
+          Confirma la actualización
+        </h2>
+        <dl
+          class="summary"
+        >
+          <dt>
+            Nuevo correo
+          </dt>
+          <dd>
+            nu***@dominio.com
+          </dd>
+        </dl>
+        <p>
+          Enviaremos una confirmación a tu nuevo correo y un aviso de seguridad al correo anterior.
+        </p>
+        <div
+          class="actions"
+        >
+          <button
+            class="btn btn--primary"
+            disabled=""
+            type="button"
+          >
+            Actualizando…
+          </button>
+          <button
+            class="btn"
+            disabled=""
+            type="button"
+          >
+            Volver
+          </button>
+        </div>
+      </div>
+      <p
+        class="trace"
+      >
+        Código de seguimiento: 
+        <code>
+          70839742-3bf2-48bc-956e-c0788597f598
+        </code>
+      </p>
+    </section>
+  </div>
+</body>
+Ignored nodes: comments, script, style
+<body>
+  <div>
+    <section
+      aria-labelledby="wizard-title"
+      class="wizard"
+    >
+      <h1
+        id="wizard-title"
+      >
+        Actualiza tu correo electrónico
+      </h1>
+      <ol
+        aria-label="Progreso"
+        class="stepper"
+      >
+        <li
+          class="stepper__item stepper__item--done"
+        >
+          <span
+            aria-hidden="true"
+            class="stepper__dot"
+          >
+            1
+          </span>
+          <span
+            class="stepper__label"
+          >
+            Identificación
+          </span>
+        </li>
+        <li
+          class="stepper__item stepper__item--done"
+        >
+          <span
+            aria-hidden="true"
+            class="stepper__dot"
+          >
+            2
+          </span>
+          <span
+            class="stepper__label"
+          >
+            Validación
+          </span>
+        </li>
+        <li
+          class="stepper__item stepper__item--done"
+        >
+          <span
+            aria-hidden="true"
+            class="stepper__dot"
+          >
+            3
+          </span>
+          <span
+            class="stepper__label"
+          >
+            Nuevo correo
+          </span>
+        </li>
+        <li
+          aria-current="step"
+          class="stepper__item stepper__item--current"
+        >
+          <span
+            aria-hidden="true"
+            class="stepper__dot"
+          >
+            4
+          </span>
+          <span
+            class="stepper__label"
+          >
+            Confirmación
+          </span>
+        </li>
+        <li
+          class="stepper__item stepper__item--todo"
+        >
+          <span
+            aria-hidden="true"
+            class="stepper__dot"
+          >
+            5
+          </span>
+          <span
+            class="stepper__label"
+          >
+            Resultado
+          </span>
+        </li>
+      </ol>
+      <div
+        class="step"
+      >
+        <h2>
+          Confirma la actualización
+        </h2>
+        <dl
+          class="summary"
+        >
+          <dt>
+            Nuevo correo
+          </dt>
+          <dd>
+            nu***@dominio.com
+          </dd>
+        </dl>
+        <p>
+          Enviaremos una confirmación a tu nuevo correo y un aviso de seguridad al correo anterior.
+        </p>
+        <div
+          class="actions"
+        >
+          <button
+            class="btn btn--primary"
+            disabled=""
+            type="button"
+          >
+            Actualizando…
+          </button>
+          <button
+            class="btn"
+            disabled=""
+            type="button"
+          >
+            Volver
+          </button>
+        </div>
+      </div>
+      <p
+        class="trace"
+      >
+        Código de seguimiento: 
+        <code>
+          70839742-3bf2-48bc-956e-c0788597f598
+        </code>
+      </p>
+    </section>
+  </div>
+</body>
+ ❯ waitForWrapper node_modules/@testing-library/dom/dist/wait-for.js:163:27
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:86:33
+ ❯ src/wizard/ContactUpdateWizard.test.jsx:147:25
+    145|
+    146|     await user.click(screen.getByRole('button', { name: 'Confirmar' })…
+    147|     expect(await screen.findByRole('alert')).toHaveTextContent('La sol…
+       |                         ^
+    148|     await user.click(screen.getByRole('button', { name: 'Confirmar' })…
+    149|
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/5]⎯
+ FAIL  src/wizard/ContactUpdateWizard.test.jsx > ContactUpdateWizard > INC-001: un rechazo inesperado (no ApiError) se captura, se registra y no queda sin manejo
+TestingLibraryElementError: Unable to find role="alert"
+Ignored nodes: comments, script, style
+<body>
+  <div>
+    <section
+      aria-labelledby="wizard-title"
+      class="wizard"
+    >
+      <h1
+        id="wizard-title"
+      >
+        Actualiza tu correo electrónico
+      </h1>
+      <ol
+        aria-label="Progreso"
+        class="stepper"
+      >
+        <li
+          class="stepper__item stepper__item--done"
+        >
+          <span
+            aria-hidden="true"
+            class="stepper__dot"
+          >
+            1
+          </span>
+          <span
+            class="stepper__label"
+          >
+            Identificación
+          </span>
+        </li>
+        <li
+          class="stepper__item stepper__item--done"
+        >
+          <span
+            aria-hidden="true"
+            class="stepper__dot"
+          >
+            2
+          </span>
+          <span
+            class="stepper__label"
+          >
+            Validación
+          </span>
+        </li>
+        <li
+          class="stepper__item stepper__item--done"
+        >
+          <span
+            aria-hidden="true"
+            class="stepper__dot"
+          >
+            3
+          </span>
+          <span
+            class="stepper__label"
+          >
+            Nuevo correo
+          </span>
+        </li>
+        <li
+          aria-current="step"
+          class="stepper__item stepper__item--current"
+        >
+          <span
+            aria-hidden="true"
+            class="stepper__dot"
+          >
+            4
+          </span>
+          <span
+            class="stepper__label"
+          >
+            Confirmación
+          </span>
+        </li>
+        <li
+          class="stepper__item stepper__item--todo"
+        >
+          <span
+            aria-hidden="true"
+            class="stepper__dot"
+          >
+            5
+          </span>
+          <span
+            class="stepper__label"
+          >
+            Resultado
+          </span>
+        </li>
+      </ol>
+      <div
+        class="step"
+      >
+        <h2>
+          Confirma la actualización
+        </h2>
+        <dl
+          class="summary"
+        >
+          <dt>
+            Nuevo correo
+          </dt>
+          <dd>
+            nu***@dominio.com
+          </dd>
+        </dl>
+        <p>
+          Enviaremos una confirmación a tu nuevo correo y un aviso de seguridad al correo anterior.
+        </p>
+        <div
+          class="actions"
+        >
+          <button
+            class="btn btn--primary"
+            disabled=""
+            type="button"
+          >
+            Actualizando…
+          </button>
+          <button
+            class="btn"
+            disabled=""
+            type="button"
+          >
+            Volver
+          </button>
+        </div>
+      </div>
+      <p
+        class="trace"
+      >
+        Código de seguimiento: 
+        <code>
+          b12f8732-79b9-4cbf-a0d1-2a8a046a22fb
+        </code>
+      </p>
+    </section>
+  </div>
+</body>
+Ignored nodes: comments, script, style
+<body>
+  <div>
+    <section
+      aria-labelledby="wizard-title"
+      class="wizard"
+    >
+      <h1
+        id="wizard-title"
+      >
+        Actualiza tu correo electrónico
+      </h1>
+      <ol
+        aria-label="Progreso"
+        class="stepper"
+      >
+        <li
+          class="stepper__item stepper__item--done"
+        >
+          <span
+            aria-hidden="true"
+            class="stepper__dot"
+          >
+            1
+          </span>
+          <span
+            class="stepper__label"
+          >
+            Identificación
+          </span>
+        </li>
+        <li
+          class="stepper__item stepper__item--done"
+        >
+          <span
+            aria-hidden="true"
+            class="stepper__dot"
+          >
+            2
+          </span>
+          <span
+            class="stepper__label"
+          >
+            Validación
+          </span>
+        </li>
+        <li
+          class="stepper__item stepper__item--done"
+        >
+          <span
+            aria-hidden="true"
+            class="stepper__dot"
+          >
+            3
+          </span>
+          <span
+            class="stepper__label"
+          >
+            Nuevo correo
+          </span>
+        </li>
+        <li
+          aria-current="step"
+          class="stepper__item stepper__item--current"
+        >
+          <span
+            aria-hidden="true"
+            class="stepper__dot"
+          >
+            4
+          </span>
+          <span
+            class="stepper__label"
+          >
+            Confirmación
+          </span>
+        </li>
+        <li
+          class="stepper__item stepper__item--todo"
+        >
+          <span
+            aria-hidden="true"
+            class="stepper__dot"
+          >
+            5
+          </span>
+          <span
+            class="stepper__label"
+          >
+            Resultado
+          </span>
+        </li>
+      </ol>
+      <div
+        class="step"
+      >
+        <h2>
+          Confirma la actualización
+        </h2>
+        <dl
+          class="summary"
+        >
+          <dt>
+            Nuevo correo
+          </dt>
+          <dd>
+            nu***@dominio.com
+          </dd>
+        </dl>
+        <p>
+          Enviaremos una confirmación a tu nuevo correo y un aviso de seguridad al correo anterior.
+        </p>
+        <div
+          class="actions"
+        >
+          <button
+            class="btn btn--primary"
+            disabled=""
+            type="button"
+          >
+            Actualizando…
+          </button>
+          <button
+            class="btn"
+            disabled=""
+            type="button"
+          >
+            Volver
+          </button>
+        </div>
+      </div>
+      <p
+        class="trace"
+      >
+        Código de seguimiento: 
+        <code>
+          b12f8732-79b9-4cbf-a0d1-2a8a046a22fb
+        </code>
+      </p>
+    </section>
+  </div>
+</body>
+ ❯ waitForWrapper node_modules/@testing-library/dom/dist/wait-for.js:163:27
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:86:33
+ ❯ src/wizard/ContactUpdateWizard.test.jsx:187:25
+    185|     await user.click(screen.getByRole('button', { name: 'Confirmar' })…
+    186|
+    187|     expect(await screen.findByRole('alert')).toHaveTextContent('Ocurri…
+       |                         ^
+    188|     expect(screen.getByRole('button', { name: 'Confirmar' })).toBeEnab…
+    189|     expect(consoleError).toHaveBeenCalledWith('[contact-update] error …
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/5]⎯
+ FAIL  src/wizard/ContactUpdateWizard.test.jsx > ContactUpdateWizard > E6: en Safari 17.0 (sin Promise.withResolvers) confirmar llega al resultado y no deja rechazos sin manejo
+TestingLibraryElementError: Unable to find role="heading" and name "¡Listo! Actualizamos tu correo"
+Ignored nodes: comments, script, style
+<body>
+  <div>
+    <section
+      aria-labelledby="wizard-title"
+      class="wizard"
+    >
+      <h1
+        id="wizard-title"
+      >
+        Actualiza tu correo electrónico
+      </h1>
+      <ol
+        aria-label="Progreso"
+        class="stepper"
+      >
+        <li
+          class="stepper__item stepper__item--done"
+        >
+          <span
+            aria-hidden="true"
+            class="stepper__dot"
+          >
+            1
+          </span>
+          <span
+            class="stepper__label"
+          >
+            Identificación
+          </span>
+        </li>
+        <li
+          class="stepper__item stepper__item--done"
+        >
+          <span
+            aria-hidden="true"
+            class="stepper__dot"
+          >
+            2
+          </span>
+          <span
+            class="stepper__label"
+          >
+            Validación
+          </span>
+        </li>
+        <li
+          class="stepper__item stepper__item--done"
+        >
+          <span
+            aria-hidden="true"
+            class="stepper__dot"
+          >
+            3
+          </span>
+          <span
+            class="stepper__label"
+          >
+            Nuevo correo
+          </span>
+        </li>
+        <li
+          aria-current="step"
+          class="stepper__item stepper__item--current"
+        >
+          <span
+            aria-hidden="true"
+            class="stepper__dot"
+          >
+            4
+          </span>
+          <span
+            class="stepper__label"
+          >
+            Confirmación
+          </span>
+        </li>
+        <li
+          class="stepper__item stepper__item--todo"
+        >
+          <span
+            aria-hidden="true"
+            class="stepper__dot"
+          >
+            5
+          </span>
+          <span
+            class="stepper__label"
+          >
+            Resultado
+          </span>
+        </li>
+      </ol>
+      <div
+        class="step"
+      >
+        <h2>
+          Confirma la actualización
+        </h2>
+        <dl
+          class="summary"
+        >
+          <dt>
+            Nuevo correo
+          </dt>
+          <dd>
+            nu***@dominio.com
+          </dd>
+        </dl>
+        <p>
+          Enviaremos una confirmación a tu nuevo correo y un aviso de seguridad al correo anterior.
+        </p>
+        <div
+          class="actions"
+        >
+          <button
+            class="btn btn--primary"
+            disabled=""
+            type="button"
+          >
+            Actualizando…
+          </button>
+          <button
+            class="btn"
+            disabled=""
+            type="button"
+          >
+            Volver
+          </button>
+        </div>
+      </div>
+      <p
+        class="trace"
+      >
+        Código de seguimiento: 
+        <code>
+          6543d7b8-d0fe-45da-91b5-02fd1d9354d5
+        </code>
+      </p>
+    </section>
+  </div>
+</body>
+Ignored nodes: comments, script, style
+<body>
+  <div>
+    <section
+      aria-labelledby="wizard-title"
+      class="wizard"
+    >
+      <h1
+        id="wizard-title"
+      >
+        Actualiza tu correo electrónico
+      </h1>
+      <ol
+        aria-label="Progreso"
+        class="stepper"
+      >
+        <li
+          class="stepper__item stepper__item--done"
+        >
+          <span
+            aria-hidden="true"
+            class="stepper__dot"
+          >
+            1
+          </span>
+          <span
+            class="stepper__label"
+          >
+            Identificación
+          </span>
+        </li>
+        <li
+          class="stepper__item stepper__item--done"
+        >
+          <span
+            aria-hidden="true"
+            class="stepper__dot"
+          >
+            2
+          </span>
+          <span
+            class="stepper__label"
+          >
+            Validación
+          </span>
+        </li>
+        <li
+          class="stepper__item stepper__item--done"
+        >
+          <span
+            aria-hidden="true"
+            class="stepper__dot"
+          >
+            3
+          </span>
+          <span
+            class="stepper__label"
+          >
+            Nuevo correo
+          </span>
+        </li>
+        <li
+          aria-current="step"
+          class="stepper__item stepper__item--current"
+        >
+          <span
+            aria-hidden="true"
+            class="stepper__dot"
+          >
+            4
+          </span>
+          <span
+            class="stepper__label"
+          >
+            Confirmación
+          </span>
+        </li>
+        <li
+          class="stepper__item stepper__item--todo"
+        >
+          <span
+            aria-hidden="true"
+            class="stepper__dot"
+          >
+            5
+          </span>
+          <span
+            class="stepper__label"
+          >
+            Resultado
+          </span>
+        </li>
+      </ol>
+      <div
+        class="step"
+      >
+        <h2>
+          Confirma la actualización
+        </h2>
+        <dl
+          class="summary"
+        >
+          <dt>
+            Nuevo correo
+          </dt>
+          <dd>
+            nu***@dominio.com
+          </dd>
+        </dl>
+        <p>
+          Enviaremos una confirmación a tu nuevo correo y un aviso de seguridad al correo anterior.
+        </p>
+        <div
+          class="actions"
+        >
+          <button
+            class="btn btn--primary"
+            disabled=""
+            type="button"
+          >
+            Actualizando…
+          </button>
+          <button
+            class="btn"
+            disabled=""
+            type="button"
+          >
+            Volver
+          </button>
+        </div>
+      </div>
+      <p
+        class="trace"
+      >
+        Código de seguimiento: 
+        <code>
+          6543d7b8-d0fe-45da-91b5-02fd1d9354d5
+        </code>
+      </p>
+    </section>
+  </div>
+</body>
+ ❯ waitForWrapper node_modules/@testing-library/dom/dist/wait-for.js:163:27
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:86:33
+ ❯ src/wizard/ContactUpdateWizard.test.jsx:208:27
+    206|       await user.click(screen.getByRole('button', { name: 'Confirmar' …
+    207|
+    208|       expect(await screen.findByRole('heading', { name: '¡Listo! Actua…
+       |                           ^
+    209|         .toBeInTheDocument();
+    210|       await new Promise((resolve) => setTimeout(resolve, 0));
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/5]⎯
+ FAIL  src/wizard/ContactUpdateWizard.test.jsx > ContactUpdateWizard > E6: si la actualización falla, el error se muestra y Confirmar vuelve a habilitarse
+TestingLibraryElementError: Unable to find role="alert"
+Ignored nodes: comments, script, style
+<body>
+  <div>
+    <section
+      aria-labelledby="wizard-title"
+      class="wizard"
+    >
+      <h1
+        id="wizard-title"
+      >
+        Actualiza tu correo electrónico
+      </h1>
+      <ol
+        aria-label="Progreso"
+        class="stepper"
+      >
+        <li
+          class="stepper__item stepper__item--done"
+        >
+          <span
+            aria-hidden="true"
+            class="stepper__dot"
+          >
+            1
+          </span>
+          <span
+            class="stepper__label"
+          >
+            Identificación
+          </span>
+        </li>
+        <li
+          class="stepper__item stepper__item--done"
+        >
+          <span
+            aria-hidden="true"
+            class="stepper__dot"
+          >
+            2
+          </span>
+          <span
+            class="stepper__label"
+          >
+            Validación
+          </span>
+        </li>
+        <li
+          class="stepper__item stepper__item--done"
+        >
+          <span
+            aria-hidden="true"
+            class="stepper__dot"
+          >
+            3
+          </span>
+          <span
+            class="stepper__label"
+          >
+            Nuevo correo
+          </span>
+        </li>
+        <li
+          aria-current="step"
+          class="stepper__item stepper__item--current"
+        >
+          <span
+            aria-hidden="true"
+            class="stepper__dot"
+          >
+            4
+          </span>
+          <span
+            class="stepper__label"
+          >
+            Confirmación
+          </span>
+        </li>
+        <li
+          class="stepper__item stepper__item--todo"
+        >
+          <span
+            aria-hidden="true"
+            class="stepper__dot"
+          >
+            5
+          </span>
+          <span
+            class="stepper__label"
+          >
+            Resultado
+          </span>
+        </li>
+      </ol>
+      <div
+        class="step"
+      >
+        <h2>
+          Confirma la actualización
+        </h2>
+        <dl
+          class="summary"
+        >
+          <dt>
+            Nuevo correo
+          </dt>
+          <dd>
+            nu***@dominio.com
+          </dd>
+        </dl>
+        <p>
+          Enviaremos una confirmación a tu nuevo correo y un aviso de seguridad al correo anterior.
+        </p>
+        <div
+          class="actions"
+        >
+          <button
+            class="btn btn--primary"
+            disabled=""
+            type="button"
+          >
+            Actualizando…
+          </button>
+          <button
+            class="btn"
+            disabled=""
+            type="button"
+          >
+            Volver
+          </button>
+        </div>
+      </div>
+      <p
+        class="trace"
+      >
+        Código de seguimiento: 
+        <code>
+          bffa1ae5-f1ab-4291-9b15-4c30ee7d6ef5
+        </code>
+      </p>
+    </section>
+  </div>
+</body>
+Ignored nodes: comments, script, style
+<body>
+  <div>
+    <section
+      aria-labelledby="wizard-title"
+      class="wizard"
+    >
+      <h1
+        id="wizard-title"
+      >
+        Actualiza tu correo electrónico
+      </h1>
+      <ol
+        aria-label="Progreso"
+        class="stepper"
+      >
+        <li
+          class="stepper__item stepper__item--done"
+        >
+          <span
+            aria-hidden="true"
+            class="stepper__dot"
+          >
+            1
+          </span>
+          <span
+            class="stepper__label"
+          >
+            Identificación
+          </span>
+        </li>
+        <li
+          class="stepper__item stepper__item--done"
+        >
+          <span
+            aria-hidden="true"
+            class="stepper__dot"
+          >
+            2
+          </span>
+          <span
+            class="stepper__label"
+          >
+            Validación
+          </span>
+        </li>
+        <li
+          class="stepper__item stepper__item--done"
+        >
+          <span
+            aria-hidden="true"
+            class="stepper__dot"
+          >
+            3
+          </span>
+          <span
+            class="stepper__label"
+          >
+            Nuevo correo
+          </span>
+        </li>
+        <li
+          aria-current="step"
+          class="stepper__item stepper__item--current"
+        >
+          <span
+            aria-hidden="true"
+            class="stepper__dot"
+          >
+            4
+          </span>
+          <span
+            class="stepper__label"
+          >
+            Confirmación
+          </span>
+        </li>
+        <li
+          class="stepper__item stepper__item--todo"
+        >
+          <span
+            aria-hidden="true"
+            class="stepper__dot"
+          >
+            5
+          </span>
+          <span
+            class="stepper__label"
+          >
+            Resultado
+          </span>
+        </li>
+      </ol>
+      <div
+        class="step"
+      >
+        <h2>
+          Confirma la actualización
+        </h2>
+        <dl
+          class="summary"
+        >
+          <dt>
+            Nuevo correo
+          </dt>
+          <dd>
+            nu***@dominio.com
+          </dd>
+        </dl>
+        <p>
+          Enviaremos una confirmación a tu nuevo correo y un aviso de seguridad al correo anterior.
+        </p>
+        <div
+          class="actions"
+        >
+          <button
+            class="btn btn--primary"
+            disabled=""
+            type="button"
+          >
+            Actualizando…
+          </button>
+          <button
+            class="btn"
+            disabled=""
+            type="button"
+          >
+            Volver
+          </button>
+        </div>
+      </div>
+      <p
+        class="trace"
+      >
+        Código de seguimiento: 
+        <code>
+          bffa1ae5-f1ab-4291-9b15-4c30ee7d6ef5
+        </code>
+      </p>
+    </section>
+  </div>
+</body>
+ ❯ waitForWrapper node_modules/@testing-library/dom/dist/wait-for.js:163:27
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:86:33
+ ❯ src/wizard/ContactUpdateWizard.test.jsx:226:25
+    224|     await user.click(screen.getByRole('button', { name: 'Confirmar' })…
+    225|
+    226|     expect(await screen.findByRole('alert')).toHaveTextContent('El ser…
+       |                         ^
+    227|     expect(screen.getByRole('button', { name: 'Confirmar' })).toBeEnab…
+    228|   });
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/5]⎯
+⎯⎯⎯⎯⎯⎯ Unhandled Errors ⎯⎯⎯⎯⎯⎯
+Vitest caught 3 unhandled errors during the test run.
+This might cause false positive tests. Resolve unhandled errors to make sure your tests are not affected.
+⎯⎯⎯⎯ Unhandled Rejection ⎯⎯⎯⎯⎯
+ApiError: CLIENT_TIMEOUT
+ ❯ src/wizard/ContactUpdateWizard.test.jsx:138:30
+    136|   it('CA-12: tras un timeout del cliente el reintento usa la misma Ide…
+    137|     const updateEmail = vi.fn()
+    138|       .mockRejectedValueOnce(new ApiError({ code: 'CLIENT_TIMEOUT' }))
+       |                              ^
+    139|       .mockResolvedValueOnce(result);
+    140|     const api = fakeApi({ updateEmail });
+ ❯ node_modules/vitest/dist/chunks/run.BPv-BBRv.js:1632:35
+ ❯ node_modules/vitest/dist/chunks/run.BPv-BBRv.js:2801:26
+ ❯ node_modules/vitest/dist/chunks/run.BPv-BBRv.js:3338:20
+ ❯ runWithCancel node_modules/vitest/dist/chunks/run.BPv-BBRv.js:3333:10
+ ❯ node_modules/vitest/dist/chunks/run.BPv-BBRv.js:3318:20
+ ❯ runWithTimeout node_modules/vitest/dist/chunks/run.BPv-BBRv.js:3276:10
+ ❯ node_modules/vitest/dist/chunks/run.BPv-BBRv.js:3904:64
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+Serialized Error: { status: 0, code: 'CLIENT_TIMEOUT', correlationId: undefined, extra: {} }
+This error originated in "src/wizard/ContactUpdateWizard.test.jsx" test file. It doesn't mean the error was thrown inside the file itself, but while it was running.
+The last test to run before this error was "CA-12: tras un timeout del cliente el reintento usa la misma Idempotency-Key". This means either:
+- the error was thrown while Vitest was running this test, or
+- the error was thrown after the test completed, and this was the most recent test at that point.
+⎯⎯⎯⎯ Unhandled Rejection ⎯⎯⎯⎯⎯
+TypeError: undefined is not a function
+ ❯ src/wizard/ContactUpdateWizard.test.jsx:180:66
+    178|   it('INC-001: un rechazo inesperado (no ApiError) se captura, se regi…
+    179|     const consoleError = vi.spyOn(console, 'error').mockImplementation…
+    180|     const api = fakeApi({ updateEmail: vi.fn().mockRejectedValue(new T…
+       |                                                                  ^
+    181|     render(<ContactUpdateWizard api={api} />);
+    182|     await identify();
+ ❯ node_modules/vitest/dist/chunks/run.BPv-BBRv.js:1632:35
+ ❯ node_modules/vitest/dist/chunks/run.BPv-BBRv.js:2801:26
+ ❯ node_modules/vitest/dist/chunks/run.BPv-BBRv.js:3338:20
+ ❯ runWithCancel node_modules/vitest/dist/chunks/run.BPv-BBRv.js:3333:10
+ ❯ node_modules/vitest/dist/chunks/run.BPv-BBRv.js:3318:20
+ ❯ runWithTimeout node_modules/vitest/dist/chunks/run.BPv-BBRv.js:3276:10
+ ❯ node_modules/vitest/dist/chunks/run.BPv-BBRv.js:3904:64
+This error originated in "src/wizard/ContactUpdateWizard.test.jsx" test file. It doesn't mean the error was thrown inside the file itself, but while it was running.
+The last test to run before this error was "INC-001: un rechazo inesperado (no ApiError) se captura, se registra y no queda sin manejo". This means either:
+- the error was thrown while Vitest was running this test, or
+- the error was thrown after the test completed, and this was the most recent test at that point.
+⎯⎯⎯⎯ Unhandled Rejection ⎯⎯⎯⎯⎯
+ApiError: PROVIDER_TIMEOUT
+ ❯ src/wizard/ContactUpdateWizard.test.jsx:219:66
+    217|
+    218|   it('E6: si la actualización falla, el error se muestra y Confirmar v…
+    219|     const api = fakeApi({ updateEmail: vi.fn().mockRejectedValue(new A…
+       |                                                                  ^
+    220|     render(<ContactUpdateWizard api={api} />);
+    221|     await identify();
+ ❯ node_modules/vitest/dist/chunks/run.BPv-BBRv.js:1632:35
+ ❯ node_modules/vitest/dist/chunks/run.BPv-BBRv.js:2801:26
+ ❯ node_modules/vitest/dist/chunks/run.BPv-BBRv.js:3338:20
+ ❯ runWithCancel node_modules/vitest/dist/chunks/run.BPv-BBRv.js:3333:10
+ ❯ node_modules/vitest/dist/chunks/run.BPv-BBRv.js:3318:20
+ ❯ runWithTimeout node_modules/vitest/dist/chunks/run.BPv-BBRv.js:3276:10
+ ❯ node_modules/vitest/dist/chunks/run.BPv-BBRv.js:3904:64
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+Serialized Error: { status: 504, code: 'PROVIDER_TIMEOUT', correlationId: undefined, extra: {} }
+This error originated in "src/wizard/ContactUpdateWizard.test.jsx" test file. It doesn't mean the error was thrown inside the file itself, but while it was running.
+The last test to run before this error was "E6: si la actualización falla, el error se muestra y Confirmar vuelve a habilitarse". This means either:
+- the error was thrown while Vitest was running this test, or
+- the error was thrown after the test completed, and this was the most recent test at that point.
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+ Test Files  2 failed | 4 passed (6)
+      Tests  5 failed | 67 passed (72)
+     Errors  3 errors
+   Start at  22:32:54
+   Duration  20.55s (tests 68%, environment 24%, setup 5%, transform 1%, import 1%)

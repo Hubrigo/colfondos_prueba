@@ -7,6 +7,7 @@
 | `main`                            | Código liberado a producción. Solo recibe merges desde `release/*` o `hotfix/*`. |
 | `develop`                         | Integración continua del trabajo del sprint.                             |
 | `feature/HU-CONTACT-001-<paso>`   | Una rama por paso o tarea técnica; entra a `develop` por PR con `merge --no-ff`. |
+| `bugfix/HU-CONTACT-001-<defecto>` | Corrección de un defecto reportado por QA antes de liberar; sale de `develop` y vuelve por PR. |
 | `release/<version>`               | Estabilización previa al comité de cambios (martes 11:00 AM, doc. 12).   |
 | `hotfix/<incidente>`              | Corrección urgente sobre `main`; se despliega en la ventana posterior a las 9:00 PM. |
 
