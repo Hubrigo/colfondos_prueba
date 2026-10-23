@@ -1,0 +1,80 @@
+ RUN  v5.0.5 C:/Users/WIN/Documents/proyectos/Colfondos/colfondos_prueba/frontend
+      Coverage enabled with v8
+ ✓ src/validation/rules.test.js > validateDocumentNumber (CA-02) > CC "1012345678" → null 2ms
+ ✓ src/validation/rules.test.js > validateDocumentNumber (CA-02) > CC " 1012345678 " → null 0ms
+ ✓ src/validation/rules.test.js > validateDocumentNumber (CA-02) > CC "12AB" → Ingresa solo números, entre 5 y 15 dígitos 0ms
+ ✓ src/validation/rules.test.js > validateDocumentNumber (CA-02) > CC "1234" → Ingresa solo números, entre 5 y 15 dígitos 0ms
+ ✓ src/validation/rules.test.js > validateDocumentNumber (CA-02) > CC "1234567890123456" → Ingresa solo números, entre 5 y 15 dígitos 0ms
+ ✓ src/validation/rules.test.js > validateDocumentNumber (CA-02) > CC "" → Ingresa el número de documento 0ms
+ ✓ src/validation/rules.test.js > validateDocumentNumber (CA-02) > PA "AB12345" → null 0ms
+ ✓ src/validation/rules.test.js > validateDocumentNumber (CA-02) > PA "AB-123" → Ingresa entre 5 y 15 letras o números 0ms
+ ✓ src/validation/rules.test.js > validateDocumentNumber (CA-02) > solo acepta tipos del catálogo 0ms
+ ✓ src/validation/rules.test.js > validateOtp > acepta 123456 0ms
+ ✓ src/validation/rules.test.js > validateOtp > rechaza 12345 0ms
+ ✓ src/validation/rules.test.js > validateOtp > rechaza 1234567 0ms
+ ✓ src/validation/rules.test.js > validateOtp > rechaza 12a456 0ms
+ ✓ src/validation/rules.test.js > validateOtp > rechaza  0ms
+ ✓ src/validation/rules.test.js > validateOtp > rechaza undefined 0ms
+ ✓ src/validation/rules.test.js > validateEmail (CA-08), igual que el backend > acepta nuevo.correo@dominio.com 0ms
+ ✓ src/validation/rules.test.js > validateEmail (CA-08), igual que el backend > acepta a+b@sub.dominio.co 0ms
+ ✓ src/validation/rules.test.js > validateEmail (CA-08), igual que el backend > acepta   ana@dominio.com   0ms
+ ✓ src/validation/rules.test.js > validateEmail (CA-08), igual que el backend > rechaza sin-arroba.com 0ms
+ ✓ src/validation/rules.test.js > validateEmail (CA-08), igual que el backend > rechaza a@b 0ms
+ ✓ src/validation/rules.test.js > validateEmail (CA-08), igual que el backend > rechaza a@dominio 0ms
+ ✓ src/validation/rules.test.js > validateEmail (CA-08), igual que el backend > rechaza a@.com 0ms
+ ✓ src/validation/rules.test.js > validateEmail (CA-08), igual que el backend > rechaza a b@dominio.com 0ms
+ ✓ src/validation/rules.test.js > validateEmail (CA-08), igual que el backend > rechaza @dominio.com 0ms
+ ✓ src/validation/rules.test.js > validateEmail (CA-08), igual que el backend > rechaza más de 254 caracteres y el vacío 0ms
+ ✓ src/validation/rules.test.js > validateEmailConfirmation (CA-09) > compara sin importar espacios ni mayúsculas 0ms
+ ✓ src/validation/rules.test.js > validateEmailConfirmation (CA-09) > detecta correos distintos 0ms
+ ✓ src/validation/rules.test.js > validateEmailConfirmation (CA-09) > exige la confirmación 0ms
+ ✓ src/validation/rules.test.js > normalizeEmail y maskEmail > normaliza el dominio y conserva la parte local 0ms
+ ✓ src/validation/rules.test.js > normalizeEmail y maskEmail > enmascara igual que el backend 0ms
+ ✓ src/utils/utils.test.js > fechas del contrato (ISO-8601 con offset) > formatea la fecha del resultado en hora de Bogotá 2ms
+ ✓ src/utils/utils.test.js > fechas del contrato (ISO-8601 con offset) > una fecha inválida (undefined) no lanza: devuelve "" 1ms
+ ✓ src/utils/utils.test.js > fechas del contrato (ISO-8601 con offset) > una fecha inválida (null) no lanza: devuelve "" 0ms
+ ✓ src/utils/utils.test.js > fechas del contrato (ISO-8601 con offset) > una fecha inválida () no lanza: devuelve "" 0ms
+ ✓ src/utils/utils.test.js > fechas del contrato (ISO-8601 con offset) > una fecha inválida (no-es-fecha) no lanza: devuelve "" 0ms
+ ✓ src/utils/utils.test.js > fechas del contrato (ISO-8601 con offset) > una fecha inválida (42) no lanza: devuelve "" 0ms
+ ✓ src/utils/utils.test.js > fechas del contrato (ISO-8601 con offset) > calcula los segundos restantes sin valores negativos 0ms
+ ✓ src/utils/utils.test.js > fechas del contrato (ISO-8601 con offset) > muestra m:ss 0ms
+ ✓ src/utils/utils.test.js > uuid > usa crypto.randomUUID cuando existe 1ms
+ ✓ src/utils/utils.test.js > uuid > funciona sin crypto.randomUUID (contexto HTTP no seguro, p. ej. QA) 2ms
+ ✓ src/wizard/reducer.test.js > reducer del asistente > recorre el camino feliz 4ms
+ ✓ src/wizard/reducer.test.js > reducer del asistente > conserva un correlationId por transacción y lo renueva al reiniciar 0ms
+ ✓ src/wizard/reducer.test.js > reducer del asistente > reutiliza la Idempotency-Key si el correo no cambia y la renueva si cambia 0ms
+ ✓ src/wizard/reducer.test.js > reducer del asistente > OTP_BLOCKED lleva a la pantalla de bloqueo 0ms
+ ✓ src/wizard/reducer.test.js > reducer del asistente > FLOW_NOT_FOUND reinicia el asistente mostrando el error 0ms
+ ✓ src/wizard/reducer.test.js > reducer del asistente > IDENTITY_NOT_VERIFIED reinicia el asistente mostrando el error 0ms
+ ✓ src/wizard/reducer.test.js > reducer del asistente > OTP_EXPIRED conserva el paso y marca el código como expirado (CA-06) 0ms
+ ✓ src/wizard/reducer.test.js > reducer del asistente > otros errores conservan el paso y los datos ingresados 0ms
+ ✓ src/wizard/reducer.test.js > reducer del asistente > reenviar el OTP limpia la expiración sin perder el documento 0ms
+ ✓ src/wizard/reducer.test.js > reducer del asistente > OTP_EXPIRED_LOCALLY es idempotente: devuelve el mismo objeto (evita renders en bucle) 0ms
+ ✓ src/api/client.test.js > request > envía correlationId, idempotencia y JSON, y devuelve el cuerpo 7ms
+ ✓ src/api/client.test.js > request > convierte un ProblemDetail en ApiError con su code y datos extra 1ms
+ ✓ src/api/client.test.js > request > una respuesta de error que no es JSON (502 del balanceador) no rompe el cliente 1ms
+ ✓ src/api/client.test.js > request > un fallo de red se convierte en NETWORK_ERROR 1ms
+ ✓ src/api/client.test.js > request > aborta al vencer el timeout y lo informa como CLIENT_TIMEOUT 25ms
+ ✓ src/api/client.test.js > request > acepta respuestas sin cuerpo 1ms
+ ✓ src/wizard/ContactUpdateWizard.test.jsx > ContactUpdateWizard > CA-01: completa el flujo y usa el mismo correlationId en todas las llamadas 1576ms
+ ✓ src/wizard/ContactUpdateWizard.test.jsx > ContactUpdateWizard > CA-02: no llama al backend si el documento es inválido 171ms
+ ✓ src/wizard/ContactUpdateWizard.test.jsx > ContactUpdateWizard > CA-04: muestra el mensaje del backend con los intentos restantes 463ms
+ ✓ src/wizard/ContactUpdateWizard.test.jsx > ContactUpdateWizard > CA-05: con OTP_BLOCKED muestra la pantalla de bloqueo 468ms
+ ✓ src/wizard/ContactUpdateWizard.test.jsx > ContactUpdateWizard > CA-06: un OTP vencido deshabilita la validación y permite reenviar sin perder el paso 300ms
+ ✓ src/wizard/ContactUpdateWizard.test.jsx > ContactUpdateWizard > CA-07: avisa cuando quedan 30 segundos o menos 278ms
+ ✓ src/wizard/ContactUpdateWizard.test.jsx > ContactUpdateWizard > CA-12: tras un timeout del cliente el reintento usa la misma Idempotency-Key 1480ms
+ ✓ src/wizard/ContactUpdateWizard.test.jsx > ContactUpdateWizard > CA-13: proveedor caído muestra un mensaje claro y conserva el paso 266ms
+ ✓ src/wizard/ContactUpdateWizard.test.jsx > ContactUpdateWizard > CA-14: notificación PENDING informa que la confirmación puede tardar 1444ms
+ ✓ src/wizard/ContactUpdateWizard.test.jsx > ContactUpdateWizard > INC-001: un rechazo inesperado (no ApiError) se captura, se registra y no queda sin manejo 1464ms
+ ✓ src/wizard/ContactUpdateWizard.test.jsx > ContactUpdateWizard > el botón Confirmar se deshabilita mientras la solicitud está en curso (sin doble envío) 1468ms
+ Test Files  5 passed (5)
+      Tests  67 passed (67)
+   Start at  22:22:11
+   Duration  11.22s (tests 57%, environment 31%, setup 7%, transform 3%, worker 1%, import 1%)
+ % Coverage report from v8
+=============================== Coverage summary ===============================
+Statements   : 91.2% ( 228/250 )
+Branches     : 91.78% ( 190/207 )
+Functions    : 82.95% ( 73/88 )
+Lines        : 92.89% ( 196/211 )
+================================================================================

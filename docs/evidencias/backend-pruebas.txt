@@ -1,0 +1,29 @@
+mvn test — 2026-10-22T22:23:28-05:00
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0 → com.colfondos.contactupdate.ContactUpdateApplicationTests
+Tests run: 12, Failures: 0, Errors: 0, Skipped: 0 → com.colfondos.contactupdate.api.ContactUpdateControllerIntegrationTest
+Tests run: 3, Failures: 0, Errors: 0, Skipped: 0 → com.colfondos.contactupdate.config.ContactUpdatePropertiesTest
+Tests run: 14, Failures: 0, Errors: 0, Skipped: 0 → com.colfondos.contactupdate.observability.ObservabilityTest
+Tests run: 6, Failures: 0, Errors: 0, Skipped: 0 → com.colfondos.contactupdate.resilience.ResilientCallerTest
+Tests run: 0, Failures: 0, Errors: 0, Skipped: 0 → com.colfondos.contactupdate.service.ContactUpdateServiceTest
+TOTAL: 55 pruebas, 0 fallas, 0 errores, 0 omitidas
+
+Detalle de ContactUpdateServiceTest (@Nested):
+  [Paso 3: actualización y notificación] actualizacionExitosa
+  [Paso 3: actualización y notificación] mismaClaveDeIdempotenciaNoActualizaDosVeces
+  [Paso 3: actualización y notificación] correoIgualAlActual
+  [Paso 3: actualización y notificación] claveDeIdempotenciaInvalidaSeRechaza
+  [Paso 3: actualización y notificación] validacionVencidaExigeNuevaValidacion
+  [Paso 3: actualización y notificación] tokenEsDeUnSoloUso
+  [Paso 3: actualización y notificación] sinValidacionDeIdentidad
+  [Paso 3: actualización y notificación] messagingCaidoNoRevierte
+  [Paso 2: validación del OTP] otpExpirado
+  [Paso 2: validación del OTP] flujoVencidoNoExiste
+  [Paso 2: validación del OTP] flujoSenueloSeBloqueaSinLlamarAlProveedor
+  [Paso 2: validación del OTP] sinIntentosBloquea
+  [Paso 2: validación del OTP] otpIncorrectoInformaIntentos
+  [Paso 2: validación del OTP] reenvioAntesDeLaEsperaSeRechazaYDespuesSePermiteHastaElMaximo
+  [Paso 2: validación del OTP] otpValidoVerificaElFlujo
+  [Paso 1: identificación] afiliadoActivoRecibeOtpPorSmsYQuedaAuditado
+  [Paso 1: identificación] proveedorCaidoSePropaga
+  [Paso 1: identificación] documentoInexistenteNoRevelaExistencia
+  [Paso 1: identificación] sextoIntentoDelMismoDocumentoEsLimitado
