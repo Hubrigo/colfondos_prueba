@@ -47,13 +47,16 @@ contact-update:
       timeout: ${PROVIDER_TIMEOUT:PT3S}
       max-retries: 2
       backoff: PT0.2S
+      circuit-breaker: true
     identity:
       url: ${PROVIDER_IDENTITY_URL:}
       timeout: ${PROVIDER_TIMEOUT:PT3S}
       max-retries: 1
       backoff: PT0.3S
+      circuit-breaker: true
     messaging:
       url: ${PROVIDER_MESSAGING_URL:}
       timeout: ${PROVIDER_MESSAGING_TIMEOUT:PT2S}
       max-retries: 2
       backoff: PT0.5S
+      circuit-breaker: false

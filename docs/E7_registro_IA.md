@@ -70,3 +70,19 @@ Los commits con código asistido llevan el trailer `AI-Assisted:` para vincularl
 | Tiempo estimado sin IA | 4 h |
 | Tiempo real con IA | 50 min |
 | Observaciones de calidad | La IA generó código que compiló al primer intento, pero **5 defectos solo aparecieron al ejecutar** los escenarios. La prueba de humo contra el servicio levantado fue la validación decisiva. Se verificó por `grep` que los logs no contienen el OTP ni correos en claro. |
+
+## IA-04: Frontend React (paso 4, soporte de E2 y E4)
+
+| Campo | Registro |
+|-------|----------|
+| Iniciativa / HU | HU-CONTACT-001 |
+| Herramienta | Claude Code (código y ejecución de Playwright en Chromium, Edge y WebKit) |
+| Prompt relevante | "Implementa el asistente de E2 en React + Vite: identificación, OTP con contador y reenvío, nuevo correo, confirmación y resultado; validaciones en línea, mensaje por cada `code` de error, idempotencia y manejo de todas las promesas (INC-001)." |
+| Resultado relevante | Máquina de estados pura (`reducer.js`), 8 componentes de paso, cliente HTTP con correlationId, timeout e idempotencia, reglas de validación compartidas con el backend y ErrorBoundary. Suite e2e de Playwright: **15/15** en Chromium, Edge y WebKit, con capturas. |
+| Ajustes del usuario | (1) Se detectó en revisión un **bucle de renders** potencial: el contador despachaba `OTP_EXPIRED_LOCALLY` en cada render; se resolvió con `useCallback` y un reducer idempotente. (2) `crypto.randomUUID` no existe en contextos HTTP no seguros (QA): se agregó alternativa con `getRandomValues`. (3) jsdom 30 exige Node ≥ 24.15 y el entorno tenía 24.14, así que se fijó jsdom 29. (4) La primera corrida e2e **falló 7/15** y destapó: un falso positivo de la propia prueba (Vite sirve `/src/api/…`), estado compartido entre navegadores, un 404 de `favicon.ico` en consola de Edge y un **desvío del diseño en el backend**: Messaging tenía circuit breaker, contra E2 §5.3, y los fallos de un afiliado abrían el circuito para todos. Todos se corrigieron. |
+| Decisión | Aceptado con correcciones. Se mantiene la regla de que toda llamada pasa por `run()` con `try/catch`, más `ErrorBoundary` y un listener de `unhandledrejection` como última defensa. |
+| Descartado | (1) Librería de formularios o de estado (Formik, Redux): son innecesarias para 5 pasos y aumentan la superficie de compatibilidad. (2) Bloquear el pegado en "confirmar correo": E1 lo desaconseja, pero no lo bloquea, por accesibilidad. (3) Mostrar el `detail` del backend para todos los errores: solo se usa en `OTP_INVALID` y `OTP_RESEND_TOO_SOON`; el resto usa textos propios. |
+| Tokens / créditos | No medidos de forma individual. |
+| Tiempo estimado sin IA | 3 h |
+| Tiempo real con IA | 45 min |
+| Observaciones de calidad | Las pruebas e2e en navegadores reales encontraron un defecto del **backend** que la prueba de humo con `fetch` no podía ver, porque solo aparece al encadenar escenarios. Probar en WebKit desde el inicio deja lista la base para E6. |

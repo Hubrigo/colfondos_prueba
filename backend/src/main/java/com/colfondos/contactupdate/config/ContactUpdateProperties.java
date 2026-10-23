@@ -41,10 +41,15 @@ public record ContactUpdateProperties(
             @Valid @NotNull Provider messaging) {
     }
 
+    /**
+     * @param circuitBreaker {@code false} para Messaging: si falla, la notificación queda PENDING
+     *                       y no debe bloquear las notificaciones de otros afiliados (E2 §5.3)
+     */
     public record Provider(
             @NotBlank(message = "define la URL del proveedor (PROVIDER_*_URL)") String url,
             @NotNull Duration timeout,
             @Min(0) @Max(5) int maxRetries,
-            @NotNull Duration backoff) {
+            @NotNull Duration backoff,
+            boolean circuitBreaker) {
     }
 }
