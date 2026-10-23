@@ -1,0 +1,8 @@
+$ git show 0fc01a2:frontend/src/utils/timing.js | npx eslint --stdin --stdin-filename src/utils/timing.js
+
+C:\Users\WIN\Documents\proyectos\Colfondos\colfondos_prueba\frontend\src\utils\timing.js
+  4:32  error  ES2024 'Promise.withResolvers' is forbidden  es-x/no-promise-withresolvers
+
+✖ 1 problem (1 error, 0 warnings)
+
+exit=1
