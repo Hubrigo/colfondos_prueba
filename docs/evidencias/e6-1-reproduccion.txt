@@ -1,0 +1,44 @@
+Running 4 tests using 1 worker
+  ok 1 [chromium] › e2e\safari17.spec.js:17:1 › E6: confirmar la actualización termina sin errores JS aunque el API responda 200 (1.5s)
+  ok 2 [edge] › e2e\safari17.spec.js:17:1 › E6: confirmar la actualización termina sin errores JS aunque el API responda 200 (1.5s)
+  ok 3 [webkit] › e2e\safari17.spec.js:17:1 › E6: confirmar la actualización termina sin errores JS aunque el API responda 200 (2.2s)
+[WebServer] 10:31:43 p.m. [vite] (client) [Unhandled rejection] TypeError: Promise.withResolvers is not a function. (In 'Promise.withResolvers()', 'Promise.withResolvers' is undefined)
+[WebServer]  > minimumDelay src/utils/timing.js:4:53
+[WebServer]     2  |  // cuando el API responde muy rápido.
+[WebServer]     3  |  export function minimumDelay(startedAt, minMs = 600) {
+[WebServer]     4  |    const { promise, resolve } = Promise.withResolvers();
+[WebServer]        |                                                       ^
+[WebServer]     5  |    setTimeout(resolve, Math.max(0, minMs - (Date.now() - startedAt)));
+[WebServer]     6  |    return promise;
+[WebServer]  > src/wizard/ContactUpdateWizard.jsx:57:37
+[WebServer] 
+[WebServer] 10:31:43 p.m. [vite] (client) [console.error] [contact-update] promesa rechazada sin manejo minimumDelay@http://localhost:5173/src/utils/timing.js:4:52
+[WebServer] @http://localhost:5173/src/wizard/ContactUpdateWizard.jsx:68:35
+  x  4 [safari17] › e2e\safari17.spec.js:17:1 › E6: confirmar la actualización termina sin errores JS aunque el API responda 200 (6.4s)
+  1) [safari17] › e2e\safari17.spec.js:17:1 › E6: confirmar la actualización termina sin errores JS aunque el API responda 200 
+    Error: sin errores JS ni promesas rechazadas sin manejo
+    expect(received).toEqual(expected) // deep equality
+    - Expected  - 1
+    + Received  + 4
+    - Array []
+    + Array [
+    +   "console: [contact-update] promesa rechazada sin manejo TypeError: Promise.withResolvers is not a function. (In 'Promise.withResolvers()', 'Promise.withResolvers' is undefined)",
+    +   "pageerror: TypeError: Promise.withResolvers is not a function. (In 'Promise.withResolvers()', 'Promise.withResolvers' is undefined)",
+    + ]
+      43 |   await page.screenshot({ path: `${EVIDENCE}/e6-${browser}-confirmacion.png` });
+      44 |
+    > 45 |   expect(errors, 'sin errores JS ni promesas rechazadas sin manejo').toEqual([]);
+         |                                                                      ^
+      46 |   await expect(done).toBeVisible();
+      47 | });
+      48 |
+        at C:\Users\WIN\Documents\proyectos\Colfondos\colfondos_prueba\frontend\e2e\safari17.spec.js:45:70
+    Error Context: test-results\safari17-E6-confirmar-la-a-1578a--aunque-el-API-responda-200-safari17\error-context.md
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\safari17-E6-confirmar-la-a-1578a--aunque-el-API-responda-200-safari17\trace.zip
+    Usage:
+        npx playwright show-trace test-results\safari17-E6-confirmar-la-a-1578a--aunque-el-API-responda-200-safari17\trace.zip
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+  1 failed
+    [safari17] › e2e\safari17.spec.js:17:1 › E6: confirmar la actualización termina sin errores JS aunque el API responda 200 
+  3 passed (18.3s)

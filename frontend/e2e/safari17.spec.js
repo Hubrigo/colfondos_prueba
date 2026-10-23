@@ -40,7 +40,9 @@ test('E6: confirmar la actualización termina sin errores JS aunque el API respo
 
   const done = page.getByRole('heading', { name: '¡Listo! Actualizamos tu correo' });
   await done.waitFor({ timeout: 5_000 }).catch(() => {});
-  await page.screenshot({ path: `${EVIDENCE}/e6-${browser}-confirmacion.png` });
+  if (browser === 'safari17') {
+    await page.screenshot({ path: `${EVIDENCE}/e6-safari17-confirmacion.png` });
+  }
 
   expect(errors, 'sin errores JS ni promesas rechazadas sin manejo').toEqual([]);
   await expect(done).toBeVisible();

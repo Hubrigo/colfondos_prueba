@@ -191,6 +191,42 @@ describe('ContactUpdateWizard', () => {
     }));
   });
 
+  it('E6: en Safari 17.0 (sin Promise.withResolvers) confirmar llega al resultado y no deja rechazos sin manejo', async () => {
+    const original = Promise.withResolvers;
+    delete Promise.withResolvers;
+    const unhandled = [];
+    const onUnhandled = (reason) => unhandled.push(reason);
+    process.on('unhandledRejection', onUnhandled);
+    try {
+      const api = fakeApi();
+      render(<ContactUpdateWizard api={api} />);
+      await identify();
+      await validateOtp();
+      await enterEmail();
+      await user.click(screen.getByRole('button', { name: 'Confirmar' }));
+
+      expect(await screen.findByRole('heading', { name: '¡Listo! Actualizamos tu correo' }, { timeout: 2_000 }))
+        .toBeInTheDocument();
+      await new Promise((resolve) => setTimeout(resolve, 0));
+      expect(unhandled).toEqual([]);
+    } finally {
+      process.off('unhandledRejection', onUnhandled);
+      Promise.withResolvers = original;
+    }
+  });
+
+  it('E6: si la actualización falla, el error se muestra y Confirmar vuelve a habilitarse', async () => {
+    const api = fakeApi({ updateEmail: vi.fn().mockRejectedValue(new ApiError({ status: 504, code: 'PROVIDER_TIMEOUT' })) });
+    render(<ContactUpdateWizard api={api} />);
+    await identify();
+    await validateOtp();
+    await enterEmail();
+    await user.click(screen.getByRole('button', { name: 'Confirmar' }));
+
+    expect(await screen.findByRole('alert')).toHaveTextContent('El servicio está tardando más de lo normal');
+    expect(screen.getByRole('button', { name: 'Confirmar' })).toBeEnabled();
+  });
+
   it('el botón Confirmar se deshabilita mientras la solicitud está en curso (sin doble envío)', async () => {
     let release;
     const api = fakeApi({ updateEmail: vi.fn(() => new Promise((resolve) => { release = () => resolve(result); })) });
