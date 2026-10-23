@@ -13,7 +13,7 @@
 
   <groupId>com.colfondos</groupId>
   <artifactId>contact-update-orchestrator</artifactId>
-  <version>0.1.0</version>
+  <version>0.2.0-SNAPSHOT</version>
   <name>contact-update-orchestrator</name>
   <description>BFF de la HU-CONTACT-001: actualización de correo con validación de identidad</description>
 
